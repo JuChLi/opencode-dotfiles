@@ -1,6 +1,6 @@
 # OpenCode Dotfiles
 
-Personal OpenCode skills for session management with structured progress tracking.
+Personal OpenCode custom commands for session management with structured progress tracking.
 
 ## Quick Install
 
@@ -19,7 +19,7 @@ In any OpenCode session, say:
 git clone https://github.com/JuChLi/opencode-dotfiles.git ~/opencode-dotfiles-temp
 cd ~/opencode-dotfiles-temp
 
-# Install (copies skills to ~/.agents/skills/)
+# Install (copies commands to ~/.config/opencode/commands/)
 ./install.sh        # Linux / macOS / Git Bash
 .\install.ps1       # Windows PowerShell
 
@@ -27,12 +27,12 @@ cd ~/opencode-dotfiles-temp
 cd ~ && rm -rf ~/opencode-dotfiles-temp
 ```
 
-## Skills
+## Commands
 
-| Skill | Description |
-|-------|-------------|
-| `save` | Save session progress with structured task tracking, architecture decisions, and handoff context |
-| `load` | Load and resume previous progress with state comparison and actionable prompts |
+| Command | Description |
+|---------|-------------|
+| `/save` | Save session progress with structured task tracking and handoff context |
+| `/load` | Load and resume previous progress with state comparison |
 
 ### Usage
 
@@ -46,7 +46,7 @@ cd ~ && rm -rf ~/opencode-dotfiles-temp
 
 ## How It Works
 
-These skills implement a "game save/load" pattern for coding sessions:
+These commands implement a "game save/load" pattern for coding sessions:
 
 ### `/save` captures:
 
@@ -108,22 +108,34 @@ opencode-dotfiles/
 ├── README.md           # This file
 ├── install.sh          # Linux/macOS installer
 ├── install.ps1         # Windows PowerShell installer
-└── skills/
-    ├── save/
-    │   └── SKILL.md    # Save skill definition
-    └── load/
-        └── SKILL.md    # Load skill definition
+└── commands/
+    ├── save.md         # /save command
+    └── load.md         # /load command
 ```
 
-## Adding New Skills
+## Adding New Commands
 
-1. Create a directory in `skills/` with `SKILL.md`
-2. Add YAML frontmatter with `name` and `description`
-3. Write the skill instructions in Markdown
+1. Create a `.md` file in `commands/` directory
+2. Add frontmatter with `description`
+3. Write the prompt template using:
+   - `$ARGUMENTS` - User arguments
+   - `` !`command` `` - Shell output injection
+   - `@filename` - File content injection
 4. Push to GitHub
 5. Re-run install script on other machines
 
+Example:
+
+```markdown
+---
+description: Run tests and fix failures
+---
+Run the test suite and fix any failing tests.
+
+!`npm test`
+```
+
 ## Reference
 
-- [OpenCode Skills Documentation](https://opencode.ai/docs/skills/)
+- [OpenCode Commands Documentation](https://opencode.ai/docs/commands/)
 - [OpenCode Configuration](https://opencode.ai/docs/config/)
