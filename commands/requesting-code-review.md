@@ -1,5 +1,5 @@
 ---
-description: Request code review for current changes
+description: 請求程式碼審查
 ---
 Dispatch code reviewer to catch issues before they cascade.
 

@@ -1,5 +1,5 @@
 ---
-description: Find and install skills from the open agent skills ecosystem
+description: 搜尋並安裝 skills
 ---
 Help discover and install skills from the open agent skills ecosystem.
 

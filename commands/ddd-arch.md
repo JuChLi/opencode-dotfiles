@@ -1,5 +1,5 @@
 ---
-description: Apply Clean Architecture + DDD + Hexagonal patterns
+description: 套用 Clean Architecture + DDD + Hexagonal 架構模式
 ---
 Apply Clean Architecture + DDD + Hexagonal patterns to backend services.
 

@@ -1,5 +1,5 @@
 ---
-description: DDD workflow for behavior-preserving refactoring
+description: DDD 重構工作流程（保持行為不變）
 ---
 Domain-Driven Development workflow for behavior-preserving code transformation.
 

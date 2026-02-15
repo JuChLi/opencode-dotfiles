@@ -1,5 +1,5 @@
 ---
-description: Systematic root-cause debugging workflow
+description: 系統化除錯流程（先找根因再修復）
 ---
 Find root cause before attempting fixes. No guessing.
 

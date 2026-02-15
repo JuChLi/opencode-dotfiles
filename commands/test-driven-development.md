@@ -1,5 +1,5 @@
 ---
-description: Red-Green-Refactor TDD cycle
+description: 測試驅動開發 (Red-Green-Refactor)
 ---
 Write the test first. Watch it fail. Write minimal code to pass.
 

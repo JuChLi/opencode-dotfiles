@@ -1,5 +1,5 @@
 ---
-description: Explore requirements and design before coding
+description: 寫程式前先探索需求與設計
 ---
 Turn ideas into fully formed designs through collaborative dialogue.
 

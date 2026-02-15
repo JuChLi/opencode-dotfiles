@@ -1,5 +1,5 @@
 ---
-description: Save session progress to .opencode/progress.md
+description: 儲存工作進度到 .opencode/progress.md
 ---
 Save the current session state to `.opencode/progress.md` for seamless resumption.
 

@@ -1,5 +1,5 @@
 ---
-description: Write detailed implementation plan
+description: 撰寫詳細的實作計畫
 ---
 Create step-by-step implementation plan with exact file paths and code.
 

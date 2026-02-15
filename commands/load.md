@@ -1,5 +1,5 @@
 ---
-description: Load project progress and resume work
+description: 載入專案進度並繼續工作
 ---
 Load the current project's session state from `.opencode/progress.md` and restore working context.
 

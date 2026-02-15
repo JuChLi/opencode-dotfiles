@@ -1,5 +1,5 @@
 ---
-description: Git operations with atomic commits
+description: Git 操作專家（原子提交、rebase、歷史管理）
 ---
 Expert git operations: atomic commits, rebasing, history management.
 
