@@ -105,6 +105,42 @@ Start at src/auth/refresh.ts:45
 - [ ] Update API documentation
 ```
 
+## DDD Skills
+
+Custom DDD (Domain-Driven Design) skills for AI coding agents.
+
+| Skill | Command | Description |
+|-------|---------|-------------|
+| **ddd-arch** | `/ddd-arch` | Clean Architecture + DDD + Hexagonal patterns for backend design |
+| **ddd-refactor** | `/ddd-refactor` | Safe refactoring using ANALYZE-PRESERVE-IMPROVE cycle |
+
+### Skills Installation
+
+```bash
+# Install both skills globally
+npx skills add JuChLi/opencode-dotfiles@ddd-arch -g -y
+npx skills add JuChLi/opencode-dotfiles@ddd-refactor -g -y
+```
+
+### Skills Usage
+
+```bash
+# Architecture design
+/ddd-arch Create a directory structure for an e-commerce order system
+
+# Refactoring workflow
+/ddd-refactor Analyze coupling in src/services/ and create characterization tests
+```
+
+### When to Use
+
+| Scenario | Use |
+|----------|-----|
+| Design new backend projects | `/ddd-arch` |
+| Refactor legacy code | `/ddd-refactor` |
+| Check architecture violations | `/ddd-arch` |
+| Safe code transformation | `/ddd-refactor` |
+
 ## Directory Structure
 
 ```
@@ -112,10 +148,13 @@ opencode-dotfiles/
 ├── README.md           # This file
 ├── install.sh          # Linux/macOS installer
 ├── install.ps1         # Windows PowerShell installer
-└── commands/
-    ├── save.md         # /save command
-    ├── load.md         # /load command
-    └── find-skills.md  # /find-skills command
+├── commands/           # OpenCode custom commands
+│   ├── save.md         # /save command
+│   ├── load.md         # /load command
+│   └── find-skills.md  # /find-skills command
+└── skills/             # Agent skills
+    ├── ddd-arch/       # Clean Architecture + DDD + Hexagonal
+    └── ddd-refactor/   # DDD refactoring workflow
 ```
 
 ## Adding New Commands
