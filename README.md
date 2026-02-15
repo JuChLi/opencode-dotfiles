@@ -1,4 +1,4 @@
-# OpenCode Config - 個人 OpenCode 設定
+# OpenCode Dotfiles - 個人 OpenCode 設定
 
 這是我的個人 OpenCode 全域設定，包含自訂指令和設定檔。
 
@@ -7,23 +7,23 @@
 在新電腦的 OpenCode 中輸入：
 
 ```
-請幫我從 https://github.com/JuChLi/opencode-config 下載並安裝我的 OpenCode 指令
+請幫我從 https://github.com/JuChLi/opencode-dotfiles 下載並安裝我的 OpenCode 指令
 ```
 
 或手動安裝：
 
 ```bash
 # Clone repo
-git clone https://github.com/JuChLi/opencode-config.git ~/opencode-config-temp
+git clone https://github.com/JuChLi/opencode-dotfiles.git ~/opencode-dotfiles-temp
 
 # 執行安裝
-cd ~/opencode-config-temp
+cd ~/opencode-dotfiles-temp
 ./install.sh        # Linux/macOS/Git Bash
 # 或
 .\install.ps1       # Windows PowerShell
 
 # 清理
-rm -rf ~/opencode-config-temp
+rm -rf ~/opencode-dotfiles-temp
 ```
 
 ## 包含指令
@@ -47,7 +47,7 @@ rm -rf ~/opencode-config-temp
 ## 目錄結構
 
 ```
-opencode-config/
+opencode-dotfiles/
 ├── README.md         # 本說明文件
 ├── install.sh        # Linux/macOS 安裝腳本
 ├── install.ps1       # Windows PowerShell 安裝腳本
