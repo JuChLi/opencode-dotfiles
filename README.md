@@ -33,6 +33,7 @@ cd ~ && rm -rf ~/opencode-dotfiles-temp
 |---------|-------------|
 | `/save` | Save session progress with structured task tracking and handoff context |
 | `/load` | Load and resume previous progress with state comparison |
+| `/find-skills` | Find and install skills from the open agent skills ecosystem |
 
 ### Usage
 
@@ -42,6 +43,9 @@ cd ~ && rm -rf ~/opencode-dotfiles-temp
 
 # End of session - save progress
 /save
+
+# Find skills for a task
+/find-skills react testing
 ```
 
 ## How It Works
@@ -110,7 +114,8 @@ opencode-dotfiles/
 ├── install.ps1         # Windows PowerShell installer
 └── commands/
     ├── save.md         # /save command
-    └── load.md         # /load command
+    ├── load.md         # /load command
+    └── find-skills.md  # /find-skills command
 ```
 
 ## Adding New Commands
