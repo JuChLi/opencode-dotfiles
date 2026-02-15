@@ -1,7 +1,7 @@
 ---
-description: Save current session progress to SESSION.md
+description: Save current session progress to .opencode/progress.md
 ---
-Save the current session state to SESSION.md for future reference.
+Save the current session state to `.opencode/progress.md` for future reference.
 
 ## Gather Information
 
@@ -10,55 +10,68 @@ Recent git activity:
 
 Check these files if they exist:
 - @AGENTS.md - Project structure
-- @SESSION.md - Existing session (to update)
+- @.opencode/progress.md - Existing progress (to archive)
 
 List implementation plans:
 !`ls docs/plans/ 2>/dev/null || echo "No plans directory"`
 
+## Setup Directory
+
+Ensure `.opencode/` directory exists in the project root. Create it if missing.
+
 ## Setup .gitignore
 
-If this is a Git repository, check if `.gitignore` contains `SESSION.md`. If not, append:
+If this is a Git repository, check if `.gitignore` contains the progress files. If not, append:
 
 ```
-# Session progress (personal working state)
-SESSION.md
+# OpenCode progress (personal working state)
+.opencode/progress.md
+.opencode/progress-history.md
 ```
 
-Do NOT overwrite existing content - only append if the rule is missing.
+Do NOT overwrite existing content - only append if the rules are missing.
 
-## Write SESSION.md
+## Archive Old Progress
 
-Create or update `SESSION.md` in the project root with this structure:
+If `.opencode/progress.md` exists:
+1. Read its content
+2. Insert the content at the **beginning** of `.opencode/progress-history.md`
+3. Add a `---` separator above the archived entry (not needed for the first entry)
+4. Newer records should appear at the top of the history file
+
+## Write Progress
+
+Overwrite `.opencode/progress.md` with this structure:
 
 ```markdown
-# Session Summary
+# Session Progress
 
-> Auto-generated: [current date/time]
-> Project: [project name]
+- **Project Path**: [absolute path of working directory]
+- **Saved At**: [YYYY-MM-DD HH:mm]
 
-## Goal
-[What we're trying to accomplish - from conversation context]
+## Recent Commits
 
-## Instructions
-[Any specific preferences or constraints discussed]
+[Last 5 commits, format: `hash message`]
 
-## Discoveries
-[Key findings about the codebase or problem]
+## Uncommitted Changes
 
-## Accomplished
-- [Recent meaningful commits with brief descriptions]
+[List staged / unstaged / untracked files, or "None"]
 
-## In Progress
-- [Current work from conversation context]
+## Work Summary
 
-## Pending
-- [Remaining tasks from plans/ or discussion]
+[2-5 sentences describing what was done in this session]
 
-## Relevant Files
-- [Key files referenced in this session]
+## Todo
+
+- [ ] [Remaining or next tasks]
+
+## Notes
+
+[Known bugs, workarounds, or important notes - or "None"]
 ```
 
 ## After Writing
 
 1. Show a brief summary of what was saved
-2. Confirm that SESSION.md is excluded from git (if .gitignore was updated, mention it)
+2. If old progress was archived, mention it
+3. Confirm that progress files are excluded from git
