@@ -15,6 +15,17 @@ Check these files if they exist:
 List implementation plans:
 !`ls docs/plans/ 2>/dev/null || echo "No plans directory"`
 
+## Setup .gitignore
+
+If this is a Git repository, check if `.gitignore` contains `SESSION.md`. If not, append:
+
+```
+# Session progress (personal working state)
+SESSION.md
+```
+
+Do NOT overwrite existing content - only append if the rule is missing.
+
 ## Write SESSION.md
 
 Create or update `SESSION.md` in the project root with this structure:
@@ -50,4 +61,4 @@ Create or update `SESSION.md` in the project root with this structure:
 ## After Writing
 
 1. Show a brief summary of what was saved
-2. Ask if the user wants to commit SESSION.md
+2. Confirm that SESSION.md is excluded from git (if .gitignore was updated, mention it)
