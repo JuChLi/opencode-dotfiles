@@ -1,64 +1,100 @@
-# OpenCode Dotfiles - 個人 OpenCode 設定
+# OpenCode Dotfiles
 
-這是我的個人 OpenCode 全域設定，包含自訂指令和設定檔。
+Personal OpenCode configuration with custom commands for session management.
 
-## 快速安裝
+## Quick Install
 
-在新電腦的 OpenCode 中輸入：
+### Option 1: Ask OpenCode
+
+In any OpenCode session, say:
 
 ```
-請幫我從 https://github.com/JuChLi/opencode-dotfiles 下載並安裝我的 OpenCode 指令
+請幫我從 https://github.com/JuChLi/opencode-dotfiles clone 並執行安裝腳本
 ```
 
-或手動安裝：
+### Option 2: Manual Install
 
 ```bash
-# Clone repo
+# Clone
 git clone https://github.com/JuChLi/opencode-dotfiles.git ~/opencode-dotfiles-temp
-
-# 執行安裝
 cd ~/opencode-dotfiles-temp
-./install.sh        # Linux/macOS/Git Bash
-# 或
+
+# Install (copies commands to ~/.config/opencode/commands/)
+./install.sh        # Linux / macOS / Git Bash
 .\install.ps1       # Windows PowerShell
 
-# 清理
-rm -rf ~/opencode-dotfiles-temp
+# Cleanup
+cd ~ && rm -rf ~/opencode-dotfiles-temp
 ```
 
-## 包含指令
+## Commands
 
-| 指令 | 說明 |
-|------|------|
-| `/load` | 讀取專案進度（如同讀取遊戲存檔） |
-| `/status` | 讀取專案進度（/load 的別名） |
-| `/save` | 儲存專案進度到 SESSION.md |
+| Command | Description |
+|---------|-------------|
+| `/load` | Load project progress from SESSION.md and git history |
+| `/save` | Save current session progress to SESSION.md |
+| `/status` | Alias for `/load` |
 
-## 使用流程
+### Usage
 
-```
-# 開始工作時 - 讀取進度
+```bash
+# Start of session - load progress
 /load
 
-# 結束工作前 - 儲存進度
+# End of session - save progress
 /save
 ```
 
-## 目錄結構
+## How It Works
+
+These commands implement a "game save/load" pattern for coding sessions:
+
+1. **`/load`** - Reads `SESSION.md`, `AGENTS.md`, `docs/plans/`, and recent git commits to restore context
+2. **`/save`** - Analyzes conversation context and git history, then writes a structured summary to `SESSION.md`
+
+This enables seamless context handoff between sessions or when switching between projects.
+
+## Command Syntax
+
+Commands use OpenCode's [custom command features](https://opencode.ai/docs/commands/):
+
+- **Frontmatter** - `description` for TUI display
+- **Shell output** - `` !`git log` `` to inject command output
+- **File references** - `@SESSION.md` to include file content
+
+## Directory Structure
 
 ```
 opencode-dotfiles/
-├── README.md         # 本說明文件
-├── install.sh        # Linux/macOS 安裝腳本
-├── install.ps1       # Windows PowerShell 安裝腳本
-└── commands/         # 自訂指令
-    ├── load.md
-    ├── status.md
-    └── save.md
+├── README.md           # This file
+├── install.sh          # Linux/macOS installer
+├── install.ps1         # Windows PowerShell installer
+└── commands/
+    ├── load.md         # /load command
+    ├── save.md         # /save command
+    └── status.md       # /status command (alias for /load)
 ```
 
-## 新增指令
+## Adding New Commands
 
-1. 在 `commands/` 目錄新增 `.md` 檔案
-2. Push 到 GitHub
-3. 在其他電腦重新執行安裝腳本
+1. Create a `.md` file in `commands/` directory
+2. Add frontmatter with `description`
+3. Write the prompt template
+4. Push to GitHub
+5. Re-run install script on other machines
+
+Example:
+
+```markdown
+---
+description: Run tests and fix failures
+---
+Run the test suite and fix any failing tests.
+
+!`npm test`
+```
+
+## Reference
+
+- [OpenCode Commands Documentation](https://opencode.ai/docs/commands/)
+- [OpenCode Configuration](https://opencode.ai/docs/config/)

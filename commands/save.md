@@ -1,43 +1,53 @@
 ---
-description: 儲存目前專案進度到 SESSION.md
+description: Save current session progress to SESSION.md
 ---
-請自動更新目前專案的 SESSION.md 檔案，依序執行以下步驟：
+Save the current session state to SESSION.md for future reference.
 
-## 1. 收集資訊
-- 執行 `git log --oneline -10` 查看最近提交
-- 檢查 docs/plans/ 目錄的計畫文件
-- 檢查 AGENTS.md 了解專案結構
+## Gather Information
 
-## 2. 更新 SESSION.md
-在專案根目錄建立或更新 SESSION.md，使用以下格式：
+Recent git activity:
+!`git log --oneline -10`
+
+Check these files if they exist:
+- @AGENTS.md - Project structure
+- @SESSION.md - Existing session (to update)
+
+List implementation plans:
+!`ls docs/plans/ 2>/dev/null || echo "No plans directory"`
+
+## Write SESSION.md
+
+Create or update `SESSION.md` in the project root with this structure:
 
 ```markdown
 # Session Summary
 
-> 自動產生於 [當前日期時間]
-> 專案：[專案名稱]
+> Auto-generated: [current date/time]
+> Project: [project name]
 
-## 目前進度
+## Goal
+[What we're trying to accomplish - from conversation context]
 
-### 已完成
-- [從 git log 提取最近 5-10 個有意義的 commit，用簡短描述]
+## Instructions
+[Any specific preferences or constraints discussed]
 
-### 進行中
-- [從對話上下文或 plans/ 目錄判斷]
+## Discoveries
+[Key findings about the codebase or problem]
 
-### 待完成
-- [從 plans/ 目錄的 pending 項目或 roadmap 提取]
+## Accomplished
+- [Recent meaningful commits with brief descriptions]
 
-## 下一步
-- [根據待完成項目，建議 1-3 個具體下一步]
+## In Progress
+- [Current work from conversation context]
 
-## 最近 Commits
-[貼上 git log --oneline -5 的結果]
+## Pending
+- [Remaining tasks from plans/ or discussion]
 
-## 相關文件
-- [列出 docs/plans/ 中的相關檔案]
+## Relevant Files
+- [Key files referenced in this session]
 ```
 
-## 3. 確認
-- 顯示更新後的 SESSION.md 內容摘要
-- 詢問使用者是否要 commit 這個變更
+## After Writing
+
+1. Show a brief summary of what was saved
+2. Ask if the user wants to commit SESSION.md
