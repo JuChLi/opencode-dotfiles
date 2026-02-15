@@ -1,6 +1,6 @@
 # OpenCode Dotfiles
 
-Personal OpenCode configuration with custom commands for session management.
+Personal OpenCode skills for session management with structured progress tracking.
 
 ## Quick Install
 
@@ -19,7 +19,7 @@ In any OpenCode session, say:
 git clone https://github.com/JuChLi/opencode-dotfiles.git ~/opencode-dotfiles-temp
 cd ~/opencode-dotfiles-temp
 
-# Install (copies commands to ~/.config/opencode/commands/)
+# Install (copies skills to ~/.agents/skills/)
 ./install.sh        # Linux / macOS / Git Bash
 .\install.ps1       # Windows PowerShell
 
@@ -27,13 +27,12 @@ cd ~/opencode-dotfiles-temp
 cd ~ && rm -rf ~/opencode-dotfiles-temp
 ```
 
-## Commands
+## Skills
 
-| Command | Description |
-|---------|-------------|
-| `/load` | Load project progress from SESSION.md and git history |
-| `/save` | Save current session progress to SESSION.md |
-| `/status` | Alias for `/load` |
+| Skill | Description |
+|-------|-------------|
+| `save` | Save session progress with structured task tracking, architecture decisions, and handoff context |
+| `load` | Load and resume previous progress with state comparison and actionable prompts |
 
 ### Usage
 
@@ -47,20 +46,60 @@ cd ~ && rm -rf ~/opencode-dotfiles-temp
 
 ## How It Works
 
-These commands implement a "game save/load" pattern for coding sessions:
+These skills implement a "game save/load" pattern for coding sessions:
 
-1. **`/load`** - Reads `SESSION.md`, `AGENTS.md`, `docs/plans/`, and recent git commits to restore context
-2. **`/save`** - Analyzes conversation context and git history, then writes a structured summary to `SESSION.md`
+### `/save` captures:
 
-This enables seamless context handoff between sessions or when switching between projects.
+- **Current Task** - What you're working on, status (%), next step, blockers
+- **Context for Handoff** - 2-3 sentences for quick orientation
+- **Work Summary** - What was accomplished
+- **Todo** - Remaining tasks
+- **Notes** - Gotchas and workarounds
+- **Architecture Decisions** - Optional update to AGENTS.md
 
-## Command Syntax
+### `/load` provides:
 
-Commands use OpenCode's [custom command features](https://opencode.ai/docs/commands/):
+- **Quick Resume** - Shows task, next step, blockers immediately
+- **State Comparison** - Detects changes since last save
+- **History Summary** - Previous sessions at a glance
+- **Actionable Prompt** - Asks which task to continue
 
-- **Frontmatter** - `description` for TUI display
-- **Shell output** - `` !`git log` `` to inject command output
-- **File references** - `@SESSION.md` to include file content
+## Progress Files
+
+Progress is stored in `.opencode/` directory (auto-added to .gitignore):
+
+```
+.opencode/
+├── progress.md          # Current session state
+└── progress-history.md  # Archived previous sessions
+```
+
+### Progress Format
+
+```markdown
+# Session Progress
+
+- **Project Path**: /path/to/project
+- **Saved At**: 2026-02-16 14:30
+
+## Current Task
+
+- **Task**: Implement JWT refresh token
+- **Status**: In Progress (70%)
+- **Next Step**: Add token expiry validation
+- **Blocked By**: None
+
+## Context for Handoff
+
+Auth module 70% done. Login works, refresh token needs expiry check.
+Start at src/auth/refresh.ts:45
+
+## Todo
+
+- [ ] Complete token expiry validation
+- [ ] Add unit tests for refresh flow
+- [ ] Update API documentation
+```
 
 ## Directory Structure
 
@@ -69,32 +108,22 @@ opencode-dotfiles/
 ├── README.md           # This file
 ├── install.sh          # Linux/macOS installer
 ├── install.ps1         # Windows PowerShell installer
-└── commands/
-    ├── load.md         # /load command
-    ├── save.md         # /save command
-    └── status.md       # /status command (alias for /load)
+└── skills/
+    ├── save/
+    │   └── SKILL.md    # Save skill definition
+    └── load/
+        └── SKILL.md    # Load skill definition
 ```
 
-## Adding New Commands
+## Adding New Skills
 
-1. Create a `.md` file in `commands/` directory
-2. Add frontmatter with `description`
-3. Write the prompt template
+1. Create a directory in `skills/` with `SKILL.md`
+2. Add YAML frontmatter with `name` and `description`
+3. Write the skill instructions in Markdown
 4. Push to GitHub
 5. Re-run install script on other machines
 
-Example:
-
-```markdown
----
-description: Run tests and fix failures
----
-Run the test suite and fix any failing tests.
-
-!`npm test`
-```
-
 ## Reference
 
-- [OpenCode Commands Documentation](https://opencode.ai/docs/commands/)
+- [OpenCode Skills Documentation](https://opencode.ai/docs/skills/)
 - [OpenCode Configuration](https://opencode.ai/docs/config/)
