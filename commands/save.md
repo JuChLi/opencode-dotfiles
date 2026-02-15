@@ -21,15 +21,14 @@ Ensure `.opencode/` directory exists in the project root. Create it if missing.
 
 ## Setup .gitignore
 
-If this is a Git repository, check if `.gitignore` contains the progress files. If not, append:
+If this is a Git repository, check if `.gitignore` contains `.opencode/`. If not, append:
 
 ```
 # OpenCode progress (personal working state)
-.opencode/progress.md
-.opencode/progress-history.md
+.opencode/
 ```
 
-Do NOT overwrite existing content - only append if the rules are missing.
+Do NOT overwrite existing content - only append if the rule is missing.
 
 ## Archive Old Progress
 
@@ -74,4 +73,4 @@ Overwrite `.opencode/progress.md` with this structure:
 
 1. Show a brief summary of what was saved
 2. If old progress was archived, mention it
-3. Confirm that progress files are excluded from git
+3. Confirm that .opencode/ is excluded from git
