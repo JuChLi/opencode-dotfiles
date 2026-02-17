@@ -23,11 +23,15 @@ Check these files if they exist:
 
 ## Workflow
 
-Follow these steps in order:
+Follow these steps in order.
+
+> **IMPORTANT**: Before executing each step, output a progress message so the user knows what's happening.
 
 ### Step 1: Setup Directory
 
 Ensure `.opencode/` directory exists in project root. Create if missing.
+
+- Output: `[1/8] Setting up .opencode/ directory...`
 
 ### Step 2: Setup .gitignore
 
@@ -40,6 +44,8 @@ If this is a Git repository, check if `.gitignore` contains `.opencode/`. If not
 
 Append only — never overwrite existing content.
 
+- Output: `[2/8] Checking .gitignore settings...`
+
 ### Step 3: Archive Old Progress
 
 If `.opencode/progress.md` exists:
@@ -48,9 +54,13 @@ If `.opencode/progress.md` exists:
 3. Add `---` separator above archived entry (skip for first entry)
 4. Newer records always at top
 
+- Output: `[3/8] Archiving old progress to history...` (or `[3/8] No old progress to archive`)
+
 ### Step 4: Draft Progress Content
 
 Prepare the progress content (but don't write to file yet — wait until after git operations):
+
+- Output: `[4/8] Preparing progress content...`
 
 ```markdown
 # Session Progress
@@ -156,6 +166,8 @@ Prepare the progress content (but don't write to file yet — wait until after g
 
 If significant decisions were made, append to AGENTS.md:
 
+- Output: `[5/8] Checking for AGENTS.md updates...` (or `[5/8] No AGENTS.md updates needed`)
+
 **Architecture Decisions** (only if new tech choice or design pattern):
 ```markdown
 ## Architecture Decisions
@@ -183,12 +195,16 @@ If no uncommitted changes, skip this step.
 
 **IMPORTANT**: Execute git operations BEFORE writing the final progress.md, so that "Context for Handoff" and "Git Status" sections reflect the actual post-commit state.
 
+- Output: `[6/8] Committing and pushing changes...` (or `[6/8] No changes to commit, skipping`)
+
 ### Step 7: Write Final Progress
 
 After git operations complete, write the final `.opencode/progress.md` with accurate:
 - **Git Status**: Show the latest commits including the one just pushed
 - **Uncommitted Changes**: Should be "None" after successful push
 - **Context for Handoff**: Reflect the completed state
+
+- Output: `[7/8] Writing progress to .opencode/progress.md...`
 
 ### Step 8: Confirm
 
@@ -198,3 +214,5 @@ After writing:
 3. Confirm `.opencode/` is git-ignored
 4. Show git status (branch, sync status)
 5. Show the "Context for Handoff" for verification
+
+- Output: `[8/8] Done!` followed by the summary
