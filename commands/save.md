@@ -170,10 +170,22 @@ If significant decisions were made, append to AGENTS.md:
 - [Issue]: [Workaround]
 ```
 
-### Step 6: Confirm
+### Step 6: Git Operations
+
+If this is a Git repository with uncommitted changes:
+
+1. **Stage all changes**: `git add -A`
+2. **Commit**: Use a descriptive message based on work summary (e.g., `chore: save progress - [brief description]`)
+3. **Push**: `git push`
+4. **Verify**: Run `git status` to confirm working tree is clean
+
+If no uncommitted changes, skip this step.
+
+### Step 7: Confirm
 
 After writing:
 1. Show brief summary of what was saved
 2. If old progress was archived, mention it
 3. Confirm `.opencode/` is git-ignored
-4. Show the "Context for Handoff" for verification
+4. Show git status (branch, sync status)
+5. Show the "Context for Handoff" for verification
