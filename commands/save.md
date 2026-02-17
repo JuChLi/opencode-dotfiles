@@ -48,9 +48,9 @@ If `.opencode/progress.md` exists:
 3. Add `---` separator above archived entry (skip for first entry)
 4. Newer records always at top
 
-### Step 4: Write Progress
+### Step 4: Draft Progress Content
 
-Overwrite `.opencode/progress.md` with this structure:
+Prepare the progress content (but don't write to file yet — wait until after git operations):
 
 ```markdown
 # Session Progress
@@ -172,16 +172,25 @@ If significant decisions were made, append to AGENTS.md:
 
 ### Step 6: Git Operations
 
-If this is a Git repository with uncommitted changes:
+If this is a Git repository with uncommitted changes (excluding `.opencode/`):
 
 1. **Stage all changes**: `git add -A`
-2. **Commit**: Use a descriptive message based on work summary (e.g., `chore: save progress - [brief description]`)
+2. **Commit**: Use a descriptive message based on work summary (e.g., `chore: [brief description]`)
 3. **Push**: `git push`
 4. **Verify**: Run `git status` to confirm working tree is clean
 
 If no uncommitted changes, skip this step.
 
-### Step 7: Confirm
+**IMPORTANT**: Execute git operations BEFORE writing the final progress.md, so that "Context for Handoff" and "Git Status" sections reflect the actual post-commit state.
+
+### Step 7: Write Final Progress
+
+After git operations complete, write the final `.opencode/progress.md` with accurate:
+- **Git Status**: Show the latest commits including the one just pushed
+- **Uncommitted Changes**: Should be "None" after successful push
+- **Context for Handoff**: Reflect the completed state
+
+### Step 8: Confirm
 
 After writing:
 1. Show brief summary of what was saved
