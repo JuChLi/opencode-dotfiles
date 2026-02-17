@@ -31,7 +31,12 @@ Check `docs/plans/` directory for implementation plans:
 
 Follow these steps.
 
-> **IMPORTANT**: Before executing each step, output a progress message so the user knows what's happening.
+> **IMPORTANT**: For each step, output a progress message with emoji status indicator:
+> - ✅ Success/completed
+> - ⏭️ Skipped (not needed)
+> - ❌ Failed (with error details)
+> - ⚠️ Warning (needs attention)
+> - 🎉 All done
 
 ### Step 1: Check Progress File
 
@@ -39,7 +44,9 @@ If "Saved Progress" above shows "No saved progress found":
 - Inform user and suggest using `/save`
 - Stop here
 
-- Output: `[1/6] Checking progress file...` (or `[1/6] No progress found, please use /save first`)
+- Output: `[1/6] Checking progress file...`
+- On success: `      ✅ Progress file found`
+- On fail: `      ❌ No progress found, please use /save first`
 
 ### Step 2: Quick Context Verification
 
@@ -56,12 +63,14 @@ Parse the "5-Question Check" table (if present) to quickly verify context:
 This is for YOUR context restoration — no need to read it aloud to user.
 
 - Output: `[2/6] Verifying context...`
+- On success: `      ✅ Context restored`
 
 ### Step 3: Present Summary
 
 Display a **concise** summary optimized for quick context restoration:
 
 - Output: `[3/6] Preparing session summary...`
+- On success: `      ✅ Summary ready`
 
 **Priority Information (Always Show):**
 ```
@@ -97,6 +106,9 @@ Display a **concise** summary optimized for quick context restoration:
 Compare current Git status with the recorded state in progress.md:
 
 - Output: `[4/6] Comparing current Git state...`
+- On match: `      ✅ State matches last save`
+- On diff: `      ⚠️ Changes detected since last save`
+- On skip: `      ⏭️ Not a Git repo`
 
 | Check | Action |
 |-------|--------|
@@ -116,13 +128,16 @@ If "Progress History" is not empty:
 - Most recent first
 - No need for full details
 
-- Output: `[5/6] Checking history...` (or `[5/6] No history records`)
+- Output: `[5/6] Checking history...`
+- On found: `      ✅ Found {N} history entries`
+- On empty: `      ⏭️ No history records`
 
 ### Step 6: Prompt for Action
 
 End with actionable prompt based on phase status and todos:
 
-- Output: `[6/6] Done!` followed by the action prompt
+- Output: `[6/6] Done! 🎉`
+- Then display the action prompt
 
 ```
 ### Ready to Continue?

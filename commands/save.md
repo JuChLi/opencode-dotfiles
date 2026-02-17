@@ -25,13 +25,19 @@ Check these files if they exist:
 
 Follow these steps in order.
 
-> **IMPORTANT**: Before executing each step, output a progress message so the user knows what's happening.
+> **IMPORTANT**: For each step, output a progress message with emoji status indicator:
+> - ✅ Success/completed
+> - ⏭️ Skipped (not needed)
+> - ❌ Failed (with error details)
+> - 🎉 All done
 
 ### Step 1: Setup Directory
 
 Ensure `.opencode/` directory exists in project root. Create if missing.
 
 - Output: `[1/8] Setting up .opencode/ directory...`
+- On success: `      ✅ Directory ready` or `      ✅ Already exists`
+- On create: `      ✅ Created .opencode/`
 
 ### Step 2: Setup .gitignore
 
@@ -45,6 +51,9 @@ If this is a Git repository, check if `.gitignore` contains `.opencode/`. If not
 Append only — never overwrite existing content.
 
 - Output: `[2/8] Checking .gitignore settings...`
+- On success: `      ✅ .opencode/ already excluded`
+- On update: `      ✅ Added .opencode/ to .gitignore`
+- On skip: `      ⏭️ Not a Git repo, skipped`
 
 ### Step 3: Archive Old Progress
 
@@ -54,13 +63,16 @@ If `.opencode/progress.md` exists:
 3. Add `---` separator above archived entry (skip for first entry)
 4. Newer records always at top
 
-- Output: `[3/8] Archiving old progress to history...` (or `[3/8] No old progress to archive`)
+- Output: `[3/8] Archiving old progress...`
+- On success: `      ✅ Archived to progress-history.md`
+- On skip: `      ⏭️ No old progress to archive`
 
 ### Step 4: Draft Progress Content
 
 Prepare the progress content (but don't write to file yet — wait until after git operations):
 
 - Output: `[4/8] Preparing progress content...`
+- On success: `      ✅ Content drafted`
 
 ```markdown
 # Session Progress
@@ -166,7 +178,9 @@ Prepare the progress content (but don't write to file yet — wait until after g
 
 If significant decisions were made, append to AGENTS.md:
 
-- Output: `[5/8] Checking for AGENTS.md updates...` (or `[5/8] No AGENTS.md updates needed`)
+- Output: `[5/8] Checking for AGENTS.md updates...`
+- On update: `      ✅ Updated AGENTS.md`
+- On skip: `      ⏭️ No updates needed`
 
 **Architecture Decisions** (only if new tech choice or design pattern):
 ```markdown
@@ -195,7 +209,11 @@ If no uncommitted changes, skip this step.
 
 **IMPORTANT**: Execute git operations BEFORE writing the final progress.md, so that "Context for Handoff" and "Git Status" sections reflect the actual post-commit state.
 
-- Output: `[6/8] Committing and pushing changes...` (or `[6/8] No changes to commit, skipping`)
+- Output: `[6/8] Committing and pushing changes...`
+- On commit: `      ✅ Committed: {short hash}`
+- On push: `      ✅ Pushed to origin/{branch}`
+- On skip: `      ⏭️ No changes to commit`
+- On push fail: `      ❌ Push failed: {reason}`
 
 ### Step 7: Write Final Progress
 
@@ -205,6 +223,7 @@ After git operations complete, write the final `.opencode/progress.md` with accu
 - **Context for Handoff**: Reflect the completed state
 
 - Output: `[7/8] Writing progress to .opencode/progress.md...`
+- On success: `      ✅ Progress saved`
 
 ### Step 8: Confirm
 
@@ -215,4 +234,5 @@ After writing:
 4. Show git status (branch, sync status)
 5. Show the "Context for Handoff" for verification
 
-- Output: `[8/8] Done!` followed by the summary
+- Output: `[8/8] Done! 🎉`
+- Then display the summary
