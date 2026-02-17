@@ -8,6 +8,16 @@
 - [ ] 所有 `public/protected` 方法都有 Javadoc。
 - [ ] 若專案需要，`private` 方法也有一致標準。
 
+## Standard Doclet 核心規範
+
+- [ ] 摘要句非空，且位於主描述第一段。
+- [ ] block tags 位於主描述後方，並有清楚分段。
+- [ ] 核心 tag 順序為 `@param` -> `@return` -> `@throws`。
+- [ ] 每個方法參數都有對應 `@param`。
+- [ ] 非 `void` 且非建構子有 `@return`。
+- [ ] `void`/建構子沒有 `@return`。
+- [ ] 宣告 `throws` 的例外有對應 `@throws` 說明。
+
 ## 語意正確性
 
 - [ ] 摘要首句與方法實際行為一致。
@@ -35,6 +45,7 @@
 
 ## 風格可追溯性
 
+- [ ] 已確認符合 `Documentation Comment Specification for the Standard Doclet`。
 - [ ] 已記錄目前使用的風格設定檔（`vertx/apache/custom`）。
 - [ ] 若使用 custom style，已保存來源 URL 或文件路徑。
 - [ ] custom style 規則可由腳本重現（不是僅靠人工記憶）。

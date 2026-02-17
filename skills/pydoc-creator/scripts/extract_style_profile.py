@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Extract a custom Javadoc style profile from a URL or local document.
+Extract a custom Python docstring style profile from a URL or local document.
 
 The generated JSON can be passed to:
   --style-file <profile.json>
@@ -22,17 +22,17 @@ from html.parser import HTMLParser
 
 
 KEYWORDS = [
-    "javadoc",
-    "doc comment",
-    "summary",
-    "first sentence",
-    "@param",
-    "@return",
-    "@throws",
-    "style",
+    "docstring",
     "documentation",
-    "api",
-    "comment",
+    "summary",
+    "first line",
+    "parameters",
+    "returns",
+    "raises",
+    "examples",
+    "pep 257",
+    "google style",
+    "python",
 ]
 
 
@@ -54,7 +54,7 @@ def fetch_source_text(source: str, timeout: int = 20) -> str:
     if parsed.scheme in {"http", "https"}:
         request = urllib.request.Request(
             source,
-            headers={"User-Agent": "java-javadoc-pro/1.0 (+style-extractor)"},
+            headers={"User-Agent": "pydoc-creator/1.0 (+style-extractor)"},
         )
         with urllib.request.urlopen(request, timeout=timeout) as response:
             raw = response.read()
@@ -63,7 +63,6 @@ def fetch_source_text(source: str, timeout: int = 20) -> str:
             charset = charset_match.group(1) if charset_match else "utf-8"
             text = raw.decode(charset, errors="replace")
 
-        # If likely HTML, strip tags.
         if "<html" in text.lower() or "</" in text:
             parser = TextExtractor()
             parser.feed(text)
@@ -91,7 +90,7 @@ def score_line(line: str) -> int:
             score += 1
     if lower.startswith(("-", "*", "1.", "2.", "3.")):
         score += 1
-    if 10 <= len(line) <= 220:
+    if 10 <= len(line) <= 240:
         score += 1
     return score
 
@@ -104,7 +103,7 @@ def extract_rules(text: str, max_rules: int) -> list[str]:
         line = normalize_line(raw)
         if not line:
             continue
-        if len(line) < 10 or len(line) > 240:
+        if len(line) < 10 or len(line) > 260:
             continue
 
         line_score = score_line(line)
@@ -117,7 +116,6 @@ def extract_rules(text: str, max_rules: int) -> list[str]:
         seen.add(line_key)
         candidates.append((line_score, line))
 
-    # Keep stable ordering by score desc then original order.
     candidates.sort(key=lambda item: item[0], reverse=True)
     return [line for _, line in candidates[:max_rules]]
 
@@ -128,24 +126,33 @@ def build_profile(name: str, source: str, extends: str, rules: list[str]) -> dic
         "extends": extends,
         "source": source,
         "generatedAt": dt.datetime.now(dt.timezone.utc).isoformat(),
-        "methodSummary": {},
+        "docstringFormat": "rest",
+        "functionDetail": "說明此函式的主要流程、輸入限制與輸出語意。",
+        "includeExamples": False,
+        "moduleSummary": "{module} 模組的主要功能。",
+        "classSummary": "{name} 的核心行為實作。",
+        "functionSummary": {
+            "default": "執行 {name} 的核心流程並回傳結果。"
+        },
         "paramDescriptions": {},
-        "returnDescriptions": {},
+        "returnDescriptions": {
+            "default": "函式回傳結果。"
+        },
         "bannedPatterns": [],
         "notes": [
-            "請根據 discoveredRules 補齊 methodSummary/paramDescriptions/returnDescriptions。",
-            "可保留 extends=vertx 或改為 extends=apache。",
+            "請根據 discoveredRules 補齊 functionSummary/paramDescriptions/returnDescriptions。",
+            "可保留 extends=pep257，或改為 extends=google。",
         ],
         "discoveredRules": rules,
     }
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Extract custom Javadoc style profile")
+    parser = argparse.ArgumentParser(description="Extract custom Python docstring style profile")
     parser.add_argument("--name", required=True, help="profile name")
     parser.add_argument("--source", required=True, help="style guide URL or local file path")
     parser.add_argument("--output", required=True, help="output JSON path")
-    parser.add_argument("--extends", default="vertx", help="base style profile (vertx/apache)")
+    parser.add_argument("--extends", default="pep257", help="base style profile (pep257/google)")
     parser.add_argument("--max-rules", type=int, default=40, help="maximum discovered rules to keep")
     return parser.parse_args(argv)
 

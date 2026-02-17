@@ -1,6 +1,6 @@
 # Java Javadoc 術語表（zh-TW）
 
-本文件用於統一 `java-javadoc-pro` 相關文件與輸出文字的術語。
+本文件用於統一 `javadoc-creator` 相關文件與輸出文字的術語。
 
 ## 常用術語
 
@@ -15,10 +15,14 @@
 - 品質檢查（lint）
 - 品質閘門（quality gate）
 - 覆蓋率（coverage）
+- Standard Doclet 規範（Documentation Comment Specification）
 
 ## Javadoc 欄位術語
 
 - 摘要首句（summary sentence）
+- 主描述（main description）
+- block tags 區段（tag section）
+- tag 順序（tag ordering）
 - 參數說明（`@param` description）
 - 回傳說明（`@return` description）
 - 例外拋出說明（`@throws` description）

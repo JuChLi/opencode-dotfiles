@@ -1,0 +1,90 @@
+{
+  "name": "pep257",
+  "language": "zh-TW",
+  "extends": null,
+  "source": "https://peps.python.org/pep-0257/",
+  "docstringFormat": "rest",
+  "moduleDetail": "說明此模組的主要使用情境、限制條件與注意事項。",
+  "classDetail": "說明此類別管理的狀態、核心流程與建議使用方式。",
+  "functionDetail": "說明此函式的主要流程、輸入限制與輸出語意。",
+  "asyncFunctionDetail": "說明此函式的主要流程、輸入限制與非同步完成語意。",
+  "includeExamples": false,
+  "moduleSummary": "{module} 模組的主要功能。",
+  "classSummary": "{name} 的核心行為實作。",
+  "functionSummary": {
+    "__init__": "初始化 {name} 所需的狀態。",
+    "async": "以非同步方式執行 {name} 的主要流程。",
+    "get": "回傳對應的值。",
+    "set": "更新對應的值。",
+    "is": "判斷是否符合條件。",
+    "has": "判斷是否具備指定條件。",
+    "load": "載入目標資料或設定。",
+    "save": "儲存資料或狀態。",
+    "parse": "解析輸入內容。",
+    "calculate": "計算並回傳目標指標。",
+    "compute": "計算並回傳目標結果。",
+    "build": "建立目標資料結構。",
+    "create": "建立並回傳新物件。",
+    "validate": "驗證輸入資料是否符合規範。",
+    "default": "執行 {name} 的核心流程並回傳結果。"
+  },
+  "functionPrefixOrder": [
+    "get",
+    "set",
+    "is",
+    "has",
+    "load",
+    "save",
+    "parse",
+    "calculate",
+    "compute",
+    "build",
+    "create",
+    "validate"
+  ],
+  "paramDescriptions": {
+    "path": "目標路徑。",
+    "file_path": "檔案路徑。",
+    "data": "待處理資料。",
+    "config": "設定資料。",
+    "timeout": "逾時時間（秒）。",
+    "kwargs": "其他命名參數。",
+    "args": "其他位置參數。"
+  },
+  "paramFallback": {
+    "list": "資料集合。",
+    "id": "識別值。",
+    "seconds": "時間值（秒）。",
+    "ms": "時間值（毫秒）。",
+    "flag": "狀態旗標。",
+    "default": "輸入參數。"
+  },
+  "returnDescriptions": {
+    "none": null,
+    "bool": "條件判斷結果。",
+    "collection": "結果集合。",
+    "async": "非同步執行結果。",
+    "default": "函式回傳結果。"
+  },
+  "raisesTemplate": "當輸入不合法或處理失敗時拋出。",
+  "bannedPatterns": [
+    {
+      "pattern": "執行某功能",
+      "reason": "避免低資訊量摘要"
+    },
+    {
+      "pattern": "輸入參數",
+      "reason": "避免模板化參數描述"
+    },
+    {
+      "pattern": "操作結果",
+      "reason": "避免過度籠統的回傳描述"
+    }
+  ],
+  "weakSummaryPatterns": [
+    "^執行此函式的主要流程。$",
+    "^執行此方法的主要流程。$",
+    "^待補充說明。$",
+    "^TODO"
+  ]
+}

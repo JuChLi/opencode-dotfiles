@@ -3,6 +3,15 @@
   "language": "zh-TW",
   "extends": "vertx",
   "source": "https://example.org/javadoc-style-guide",
+  "docletSpec": {
+    "source": "https://docs.oracle.com/en/java/javase/17/docs/specs/javadoc/doc-comment-spec.html",
+    "enforceSummarySentence": true,
+    "enforceTagOrder": true,
+    "requireParamTags": true,
+    "requireReturnTagForNonVoid": true,
+    "forbidReturnTagForVoidOrConstructor": true,
+    "requireDeclaredThrowsTags": true
+  },
   "methodSummary": {
     "default": "請覆寫為符合目標風格的摘要首句。"
   },
@@ -21,6 +30,7 @@
   ],
   "notes": [
     "將此檔複製為 your-style.json 後再調整。",
+    "先維持 docletSpec 的核心規範，再調整語氣與術語。",
     "可搭配 extract_style_profile.py 從 URL 或文件快速產生初稿。",
     "建議搭配 references/terminology-glossary.md 統一術語。"
   ]

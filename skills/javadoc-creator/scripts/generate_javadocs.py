@@ -31,18 +31,34 @@ from style_profile_utils import (
 )
 
 
+def ensure_summary_sentence(text):
+    summary = (text or "").strip()
+    if not summary:
+        return "執行此方法的主要流程。"
+    if summary.endswith(("。", ".", "！", "!", "？", "?")):
+        return summary
+    return f"{summary}。"
+
+
+def leading_indent(line):
+    match = re.match(r"^\s*", line or "")
+    return match.group(0) if match else ""
+
+
 def build_type_javadoc(type_info, indent, profile):
+    summary = ensure_summary_sentence(choose_type_summary(profile, type_info))
     return [
         f"{indent}/**",
-        f"{indent} * {choose_type_summary(profile, type_info)}",
+        f"{indent} * {summary}",
         f"{indent} */",
     ]
 
 
 def build_method_javadoc(method_info, indent, profile):
+    summary = ensure_summary_sentence(choose_method_summary(profile, method_info))
     lines = [
         f"{indent}/**",
-        f"{indent} * {choose_method_summary(profile, method_info)}",
+        f"{indent} * {summary}",
     ]
 
     param_names = [extract_param_name(param) for param in method_info["params"]]
@@ -84,7 +100,7 @@ def process_file(file_path, root, include_private, profile):
         if is_type_declaration(line) and not has_javadoc(lines, i):
             type_info = parse_type_declaration(line)
             if type_info:
-                indent = re.match(r"^\s*", line).group(0)
+                indent = leading_indent(line)
                 doc = build_type_javadoc(type_info, indent, profile)
                 lines[i:i] = doc
                 inserted += 1
@@ -112,7 +128,7 @@ def process_file(file_path, root, include_private, profile):
             i = collected["end_index"] + 1
             continue
 
-        indent = re.match(r"^\s*", lines[i]).group(0)
+        indent = leading_indent(lines[i])
         doc = build_method_javadoc(method_info, indent, profile)
         lines[insertion_index:insertion_index] = doc
         inserted += 1

@@ -2,6 +2,15 @@
   "name": "vertx",
   "language": "zh-TW",
   "extends": null,
+  "docletSpec": {
+    "source": "https://docs.oracle.com/en/java/javase/17/docs/specs/javadoc/doc-comment-spec.html",
+    "enforceSummarySentence": true,
+    "enforceTagOrder": true,
+    "requireParamTags": true,
+    "requireReturnTagForNonVoid": true,
+    "forbidReturnTagForVoidOrConstructor": true,
+    "requireDeclaredThrowsTags": true
+  },
   "typeSummary": {
     "class": "{name} 的主要實作。",
     "interface": "{name} 的介面契約。",

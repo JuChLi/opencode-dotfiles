@@ -1,0 +1,34 @@
+{
+  "name": "custom-style",
+  "language": "zh-TW",
+  "extends": "pep257",
+  "source": "https://example.org/python-docstring-style-guide",
+  "docstringFormat": "rest",
+  "functionDetail": "請覆寫為符合目標風格的詳細描述段落。",
+  "includeExamples": false,
+  "moduleSummary": "請覆寫為符合目標風格的模組摘要。",
+  "classSummary": "請覆寫為符合目標風格的類別摘要。",
+  "functionSummary": {
+    "default": "請覆寫為符合目標風格的函式摘要。"
+  },
+  "paramDescriptions": {
+    "data": "可依風格指南覆寫此參數說明。"
+  },
+  "returnDescriptions": {
+    "default": "可依風格指南覆寫回傳語意說明。"
+  },
+  "raisesTemplate": "可依風格指南覆寫 raises 說明。",
+  "bannedPatterns": [
+    {
+      "pattern": "執行某功能",
+      "reason": "範例：避免過於籠統的摘要"
+    }
+  ],
+  "notes": [
+    "將此檔複製為 your-style.json 後再調整。",
+    "extends 可使用 pep257（官方）或 google（Google Style）。",
+    "docstringFormat 只允許 rest 或 google。",
+    "可搭配 extract_style_profile.py 從 URL 或文件快速產生初稿。",
+    "建議搭配 references/terminology-glossary.md 統一術語。"
+  ]
+}

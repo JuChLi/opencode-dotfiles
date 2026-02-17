@@ -1,15 +1,16 @@
 ---
-name: java-javadoc-pro
-description: 使用台灣繁體中文產生、精修與 lint 高品質 Java Javadoc，並可切換 Vert.x、Apache 或自訂 style profile。當使用者需要大量補齊 Javadoc、提升註解品質、對齊特定框架/函式庫風格，或把模板註解升級為可維護的 API 文件時使用。
+name: javadoc-creator
+description: 使用台灣繁體中文產生、精修與 lint 高品質 Java Javadoc，並可切換 Vert.x、Apache 或自訂 style profile。所有輸出需先符合 Javadoc 官方 Documentation Comment Specification for the Standard Doclet，再套用專案風格。當使用者需要大量補齊 Javadoc、提升註解品質、對齊特定框架/函式庫風格，或把模板註解升級為可維護的 API 文件時使用。
 ---
 
-# Java Javadoc Pro
+# Javadoc Creator
 
 為 Java（特別是 reactive codebase）產生高品質 Javadoc，並提供可明確控制的風格機制。
 
 ## 核心流程
 
 1. 決定風格來源：
+   - Javadoc 官方 Documentation Comment Specification for the Standard Doclet
    - 使用內建 profile（`vertx` 或 `apache`），或
    - 由使用者提供的 style guide URL/檔案建立 custom profile。
 2. 先用 `scan_missing_javadocs.py` 掃描目前覆蓋率。
@@ -69,15 +70,19 @@ python scripts/generate_javadocs.py --root src/main/java --style vertx \
 
 ## 約束
 
+- 先符合 `Documentation Comment Specification for the Standard Doclet` 核心規範，再套用風格差異。
 - 產生內容使用台灣繁體中文（`zh-TW`）。
 - 不使用 emoji 或裝飾符號。
 - 摘要首句需聚焦行為與用途。
+- block tags 需遵守核心順序：`@param` -> `@return` -> `@throws`。
+- 非 `void` 且非建構子方法需有 `@return`；`void`/建構子不可出現 `@return`。
 - 對 `Future` 回傳型別需描述非同步完成語意。
 - 避免低資訊句型（例如「操作結果」「方法輸入參數」）。
 
 ## 參考文件
 
 - `references/terminology-glossary.md`
+- `references/documentation-comment-spec.md`
 - `references/vertx-javadoc-style.md`
 - `references/high-quality-checklist.md`
 - `references/style-source-discovery.md`

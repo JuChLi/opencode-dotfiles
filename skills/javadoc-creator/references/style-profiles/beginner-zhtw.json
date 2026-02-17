@@ -2,6 +2,15 @@
   "name": "beginner-zhtw",
   "language": "zh-TW",
   "extends": "vertx",
+  "docletSpec": {
+    "source": "https://docs.oracle.com/en/java/javase/17/docs/specs/javadoc/doc-comment-spec.html",
+    "enforceSummarySentence": true,
+    "enforceTagOrder": true,
+    "requireParamTags": true,
+    "requireReturnTagForNonVoid": true,
+    "forbidReturnTagForVoidOrConstructor": true,
+    "requireDeclaredThrowsTags": true
+  },
   "typeSummary": {
     "class": "{name} 的主要功能實作，負責處理核心流程。",
     "interface": "{name} 的行為規格，定義實作時需要提供的能力。",

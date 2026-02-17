@@ -27,6 +27,9 @@ from style_profile_utils import (
 )
 
 
+SUMMARY_END_PUNCTUATION = ("。", ".", "！", "!", "？", "?")
+
+
 def find_declaration_index(lines, doc_end):
     i = doc_end + 1
     while i < len(lines):
@@ -47,6 +50,15 @@ def is_weak_summary(text):
     )
 
 
+def ensure_summary_sentence(text):
+    summary = (text or "").strip()
+    if not summary:
+        return ""
+    if summary.endswith(SUMMARY_END_PUNCTUATION):
+        return summary
+    return f"{summary}。"
+
+
 def refine_doc_block(lines, start, end, declaration_info, profile):
     changed = False
     summary_handled = False
@@ -60,8 +72,14 @@ def refine_doc_block(lines, start, end, declaration_info, profile):
             else:
                 expected_summary = choose_method_summary(profile, declaration_info["method"])
 
-            if is_weak_summary(summary_match.group(2)) and summary_match.group(2) != expected_summary:
+            expected_summary = ensure_summary_sentence(expected_summary)
+            current_summary = summary_match.group(2).strip()
+
+            if is_weak_summary(current_summary) and current_summary != expected_summary:
                 lines[i] = f"{summary_match.group(1)}{expected_summary}"
+                changed = True
+            elif current_summary and not current_summary.endswith(SUMMARY_END_PUNCTUATION):
+                lines[i] = f"{summary_match.group(1)}{ensure_summary_sentence(current_summary)}"
                 changed = True
 
             summary_handled = True

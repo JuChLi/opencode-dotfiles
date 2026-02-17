@@ -1,0 +1,61 @@
+{
+  "name": "google",
+  "language": "zh-TW",
+  "extends": "pep257",
+  "source": "https://google.github.io/styleguide/pyguide.html",
+  "docstringFormat": "google",
+  "moduleDetail": "說明此模組的主要用途、資料流向與建議使用情境。",
+  "classDetail": "說明此類別的責任、狀態管理方式與典型使用情境。",
+  "functionDetail": "說明函式處理流程、輸入限制與輸出語意。",
+  "asyncFunctionDetail": "說明函式的非同步流程、await 完成條件與錯誤傳遞語意。",
+  "includeExamples": true,
+  "exampleResultTemplate": "...",
+  "moduleSummary": "{module} 模組提供主要功能流程。",
+  "classSummary": "{name} 類別負責封裝主要行為與狀態。",
+  "functionSummary": {
+    "__init__": "建立物件並初始化必要狀態。",
+    "async": "以非同步方式執行主要流程，完成後回傳結果。",
+    "get": "回傳目前值或狀態。",
+    "set": "更新指定值或狀態。",
+    "is": "回傳目前是否符合條件。",
+    "has": "回傳目前是否具備指定條件。",
+    "load": "載入所需資料。",
+    "save": "儲存目前資料。",
+    "parse": "將輸入內容解析為可用資料。",
+    "calculate": "計算並回傳目標指標。",
+    "compute": "計算並回傳目標結果。",
+    "default": "執行 {name} 的核心流程並回傳結果。"
+  },
+  "paramDescriptions": {
+    "path": "要讀寫的目標路徑。",
+    "data": "要處理的資料內容。",
+    "config": "函式使用的設定資料。",
+    "timeout": "可接受的最長等待時間（秒）。",
+    "kwargs": "其他可選的命名參數。",
+    "args": "其他可選的位置參數。"
+  },
+  "paramFallback": {
+    "default": "這個參數會影響函式的執行行為。"
+  },
+  "returnDescriptions": {
+    "bool": "是否符合條件。",
+    "collection": "符合條件的結果集合。",
+    "async": "非同步執行結果；完成後可取得資料。",
+    "default": "函式執行後回傳的結果。"
+  },
+  "raisesTemplate": "當輸入不合法或處理失敗時拋出例外。",
+  "bannedPatterns": [
+    {
+      "pattern": "執行某功能",
+      "reason": "避免無資訊的摘要句型"
+    },
+    {
+      "pattern": "輸入參數",
+      "reason": "避免模板化且低資訊量描述"
+    },
+    {
+      "pattern": "操作結果",
+      "reason": "避免過度抽象的回傳描述"
+    }
+  ]
+}

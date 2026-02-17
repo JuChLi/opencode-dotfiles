@@ -2,6 +2,11 @@
 
 本文件定義 Java + Vert.x 專案的 Javadoc 撰寫慣例，用於統一語氣、術語與非同步語意描述。
 
+本指南建立在 Standard Doclet 官方規範之上：
+
+- 先符合 `Documentation Comment Specification for the Standard Doclet`
+- 再套用 Vert.x 專案語氣與術語偏好
+
 ## 1) 摘要首句規則
 
 - 第一行用一句話說明「方法做什麼」以及「在什麼情境下使用」。

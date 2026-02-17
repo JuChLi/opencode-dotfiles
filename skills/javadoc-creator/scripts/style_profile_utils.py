@@ -102,6 +102,21 @@ def load_style_profile(args, script_dir):
     if not profile.get("bannedPatterns"):
         profile["bannedPatterns"] = []
 
+    if not isinstance(profile.get("docletSpec"), dict):
+        profile["docletSpec"] = {}
+
+    doclet_spec = profile["docletSpec"]
+    doclet_spec.setdefault(
+        "source",
+        "https://docs.oracle.com/en/java/javase/17/docs/specs/javadoc/doc-comment-spec.html",
+    )
+    doclet_spec.setdefault("enforceSummarySentence", True)
+    doclet_spec.setdefault("enforceTagOrder", True)
+    doclet_spec.setdefault("requireParamTags", True)
+    doclet_spec.setdefault("requireReturnTagForNonVoid", True)
+    doclet_spec.setdefault("forbidReturnTagForVoidOrConstructor", True)
+    doclet_spec.setdefault("requireDeclaredThrowsTags", True)
+
     return profile
 
 
