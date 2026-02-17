@@ -1,23 +1,60 @@
-# OpenCode Dotfiles - Commands Install Script (PowerShell)
+# OpenCode Dotfiles - Install Script (PowerShell)
 # https://github.com/JuChLi/opencode-dotfiles
+#
+# Creates symlinks for commands and skills to this repo
 
 $ErrorActionPreference = "Stop"
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$TargetDir = "$env:USERPROFILE\.config\opencode\commands"
+$CommandsSource = "$ScriptDir\commands"
+$SkillsSource = "$ScriptDir\skills"
 
-Write-Host "Installing OpenCode custom commands..."
-Write-Host "Source: $ScriptDir\commands\"
-Write-Host "Target: $TargetDir"
+$CommandsTarget = "$env:USERPROFILE\.config\opencode\commands"
+$SkillsTarget = "$env:USERPROFILE\.agents\skills"
+
+# Skill name mappings (repo folder -> installed name)
+$SkillMappings = @{
+    "ddd-arch" = "clean-ddd-hexagonal"
+    "ddd-refactor" = "moai-workflow-ddd"
+}
+
+Write-Host "OpenCode Dotfiles Installer" -ForegroundColor Cyan
+Write-Host "==========================" -ForegroundColor Cyan
 Write-Host ""
 
-New-Item -ItemType Directory -Force -Path $TargetDir | Out-Null
+# Check admin rights for symlinks
+$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isAdmin) {
+    Write-Host "Warning: Running without admin rights. Symlinks may fail on older Windows versions." -ForegroundColor Yellow
+    Write-Host "If symlinks fail, run PowerShell as Administrator." -ForegroundColor Yellow
+    Write-Host ""
+}
 
-# Copy all command files
-Copy-Item "$ScriptDir\commands\*.md" -Destination $TargetDir -Force
+# === Commands ===
+Write-Host "[Commands]" -ForegroundColor Green
+Write-Host "Source: $CommandsSource"
+Write-Host "Target: $CommandsTarget"
 
-Write-Host "Installed commands:"
-Get-ChildItem "$ScriptDir\commands\*.md" | ForEach-Object {
+# Ensure parent directory exists
+$CommandsParent = Split-Path -Parent $CommandsTarget
+if (-not (Test-Path $CommandsParent)) {
+    New-Item -ItemType Directory -Force -Path $CommandsParent | Out-Null
+}
+
+# Remove existing (file, folder, or symlink)
+if (Test-Path $CommandsTarget) {
+    Remove-Item -Recurse -Force $CommandsTarget
+    Write-Host "  Removed existing: $CommandsTarget"
+}
+
+# Create symlink
+New-Item -ItemType SymbolicLink -Path $CommandsTarget -Target $CommandsSource | Out-Null
+Write-Host "  Created symlink: $CommandsTarget -> $CommandsSource" -ForegroundColor Green
+
+# List installed commands
+Write-Host ""
+Write-Host "  Installed commands:"
+Get-ChildItem "$CommandsSource\*.md" | ForEach-Object {
     $name = $_.BaseName
     $content = Get-Content $_.FullName -Raw
     if ($content -match "description:\s*(.+)") {
@@ -25,11 +62,50 @@ Get-ChildItem "$ScriptDir\commands\*.md" | ForEach-Object {
     } else {
         $desc = ""
     }
-    Write-Host "  /$name - $desc"
+    Write-Host "    /$name - $desc"
+}
+
+# === Skills ===
+Write-Host ""
+Write-Host "[Skills]" -ForegroundColor Green
+Write-Host "Source: $SkillsSource"
+Write-Host "Target: $SkillsTarget"
+
+# Ensure skills directory exists
+if (-not (Test-Path $SkillsTarget)) {
+    New-Item -ItemType Directory -Force -Path $SkillsTarget | Out-Null
+}
+
+# Create symlinks for each skill
+foreach ($mapping in $SkillMappings.GetEnumerator()) {
+    $sourceFolder = $mapping.Key
+    $targetName = $mapping.Value
+    $sourcePath = "$SkillsSource\$sourceFolder"
+    $targetPath = "$SkillsTarget\$targetName"
+
+    if (-not (Test-Path $sourcePath)) {
+        Write-Host "  Skipped (not found): $sourceFolder" -ForegroundColor Yellow
+        continue
+    }
+
+    # Remove existing
+    if (Test-Path $targetPath) {
+        Remove-Item -Recurse -Force $targetPath
+    }
+
+    # Create symlink
+    New-Item -ItemType SymbolicLink -Path $targetPath -Target $sourcePath | Out-Null
+    Write-Host "  Created symlink: $targetName -> $sourcePath" -ForegroundColor Green
+}
+
+# === Done ===
+Write-Host ""
+Write-Host "Installation complete!" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "Symlinks created:" -ForegroundColor White
+Write-Host "  $CommandsTarget -> $CommandsSource"
+foreach ($mapping in $SkillMappings.GetEnumerator()) {
+    Write-Host "  $SkillsTarget\$($mapping.Value) -> $SkillsSource\$($mapping.Key)"
 }
 Write-Host ""
-Write-Host "Done! Commands are now available in OpenCode." -ForegroundColor Green
-Write-Host ""
-Write-Host "Usage:"
-Write-Host "  /save - Save current session progress"
-Write-Host "  /load - Load and resume previous progress"
+Write-Host "Restart OpenCode to load the new commands and skills."
