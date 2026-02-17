@@ -10,8 +10,7 @@ description: 使用台灣繁體中文產生、精修與 lint 高品質 Java Java
 ## 核心流程
 
 1. 決定風格來源：
-   - Javadoc 官方 Documentation Comment Specification for the Standard Doclet
-   - 使用內建 profile（`vertx` 或 `apache`），或
+   - 使用內建 profile（`Documentation Comment Specification for the Standard Doclet` 或 `vertx` 或 `apache`），或
    - 由使用者提供的 style guide URL/檔案建立 custom profile。
 2. 先用 `scan_missing_javadocs.py` 掃描目前覆蓋率。
 3. 用 `generate_javadocs.py` 補齊缺漏。
