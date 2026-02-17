@@ -1,0 +1,9 @@
+# OpenCode progress (personal working state)
+.opencode/
+
+# Credentials and secrets
+credentials.json
+.env
+
+# Logs
+*.log
