@@ -37,7 +37,21 @@ If "Saved Progress" above shows "No saved progress found":
 - Inform user and suggest using `/save`
 - Stop here
 
-### Step 2: Present Summary
+### Step 2: Quick Context Verification
+
+Parse the "5-Question Check" table (if present) to quickly verify context:
+
+| Question | What to Check |
+|----------|---------------|
+| Where am I? | Current phase/task |
+| Where am I going? | Remaining work |
+| What's the goal? | North star objective |
+| What did I learn? | Key decisions/discoveries |
+| What did I do? | Completed work |
+
+This is for YOUR context restoration — no need to read it aloud to user.
+
+### Step 3: Present Summary
 
 Display a **concise** summary optimized for quick context restoration:
 
@@ -46,9 +60,15 @@ Display a **concise** summary optimized for quick context restoration:
 ## Session Resume
 
 **Last Saved**: [time ago, e.g., "2 days ago (2026-02-14 15:30)"]
+**Goal**: [the north star objective]
 **Current Task**: [task name] — [status]
 **Next Step**: [specific action]
 **Blocked By**: [blocker or "None"]
+
+### Phase Progress
+[Show phase status table with completion percentage, e.g., "3/5 phases complete (60%)"]
+🔴 Incomplete: [list pending/in_progress phases]
+✅ Complete: [list complete phases briefly]
 
 ### Context for Handoff
 [The 2-3 sentence handoff context from progress.md]
@@ -59,7 +79,12 @@ Display a **concise** summary optimized for quick context restoration:
 - Todo list
 - Notes/gotchas
 
-### Step 3: Compare Current State
+**Critical Context (Show if Present):**
+- **Decisions Made**: Remind what choices were made and why (avoid re-discussing)
+- **Error Log**: Remind what errors occurred and how they were resolved (avoid repeating)
+- **Files Modified**: List relevant files for quick navigation
+
+### Step 4: Compare Current State
 
 Compare current Git status with the recorded state in progress.md:
 
@@ -74,19 +99,21 @@ If commits exist that weren't in "Recent Commits":
 - Summarize what changed
 - Note if changes affect the "Current Task"
 
-### Step 4: History Summary
+### Step 5: History Summary
 
 If "Progress History" is not empty:
-- List each entry's save time and work summary (one line each)
+- List last 3 entries only (save time + one-line summary each)
 - Most recent first
 - No need for full details
 
-### Step 5: Prompt for Action
+### Step 6: Prompt for Action
 
-End with actionable prompt:
+End with actionable prompt based on phase status and todos:
 
 ```
 ### Ready to Continue?
+
+**Suggested Next Step**: [Based on "Next Step" field or first incomplete phase]
 
 Your pending tasks:
 1. [ ] [Most important task]
@@ -105,7 +132,9 @@ If there's a clear "Next Step" defined:
 | Principle | Implementation |
 |-----------|---------------|
 | Concise | No verbatim repetition — summarize |
-| Prioritized | Critical info first (task, next step, blockers) |
+| Prioritized | Critical info first (goal, task, next step, blockers) |
+| Incomplete First | Highlight pending/in_progress phases before complete ones |
+| Context-Rich | Show decisions and errors to avoid repetition |
 | Actionable | End with clear options |
 | Diff-aware | Highlight what changed since last save |
 
@@ -114,9 +143,10 @@ If there's a clear "Next Step" defined:
 | Situation | Action |
 |-----------|--------|
 | Progress file malformed | Parse what's usable, note issues |
+| Old format (no new fields) | Fall back to original parsing, still works |
 | Very old progress (>7 days) | Warn that context may be stale |
 | No git repo | Skip git comparison steps |
 | AGENTS.md has Architecture Decisions | Include relevant decisions |
 | AGENTS.md has Gotchas | Remind user of relevant gotchas |
 
-Keep total output under 50 lines for quick scanning.
+Keep total output under 60 lines for quick scanning.

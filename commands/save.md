@@ -58,6 +58,19 @@ Overwrite `.opencode/progress.md` with this structure:
 - **Project Path**: [absolute path of working directory]
 - **Saved At**: [YYYY-MM-DD HH:mm]
 
+## Goal
+
+[One sentence describing what this work session aims to achieve — your north star]
+
+## Phase Status
+
+<!-- Status: pending / in_progress / complete -->
+| Phase | Status |
+|-------|--------|
+| [Phase 1 description] | [status] |
+| [Phase 2 description] | [status] |
+| ... | ... |
+
 ## Current Task
 
 - **Task**: [Current task name/description]
@@ -69,11 +82,33 @@ Overwrite `.opencode/progress.md` with this structure:
 
 [2-3 sentences for next person/session: where you are, what's done, what's next]
 
-## Recent Commits
+## Files Modified
+
+<!-- Quick reference for load to locate relevant files -->
+- `[file path]` — [brief description of changes]
+- ...
+
+## Decisions Made
+
+<!-- Remember WHY you made choices, or "None" -->
+| Decision | Rationale |
+|----------|-----------|
+| [decision] | [reasoning] |
+
+## Error Log
+
+<!-- Track errors and retries to avoid repeating mistakes, or "None" -->
+| Error | Attempt | Resolution |
+|-------|---------|------------|
+| [error description] | [attempt #] | [how it was resolved] |
+
+## Git Status
+
+### Recent Commits
 
 [Last 5 commits: `hash message`]
 
-## Uncommitted Changes
+### Uncommitted Changes
 
 [Staged/unstaged/untracked files, or "None"]
 
@@ -85,6 +120,17 @@ Overwrite `.opencode/progress.md` with this structure:
 
 - [ ] [Remaining tasks with priority indicators]
 
+## 5-Question Check
+
+<!-- Quick context verification for load -->
+| Question | Answer |
+|----------|--------|
+| Where am I? | [Current phase/task] |
+| Where am I going? | [Remaining phases] |
+| What's the goal? | [Restate the goal] |
+| What did I learn? | [Key discoveries or decisions] |
+| What did I do? | [Brief summary of completed work] |
+
 ## Notes
 
 [Known bugs, workarounds, gotchas, or "None"]
@@ -94,11 +140,17 @@ Overwrite `.opencode/progress.md` with this structure:
 
 | Field | Purpose | Example |
 |-------|---------|---------|
+| Goal | North star for this work | "Implement user authentication with JWT" |
+| Phase Status | Track multi-step progress | "Phase 2: in_progress" |
 | Current Task | What you're working on | "Implement JWT refresh token" |
 | Status | Progress indicator | "In Progress (70%)" |
 | Next Step | Immediate next action | "Add token expiry validation" |
 | Blocked By | What's stopping progress | "Waiting for API spec" |
 | Context for Handoff | Quick orientation | "Auth 70% done. Login works, need expiry check. Start at src/auth/refresh.ts:45" |
+| Files Modified | Quick file reference | "`src/auth/jwt.ts` — added refresh logic" |
+| Decisions Made | Remember the WHY | "Used bcrypt — industry standard" |
+| Error Log | Avoid repeating mistakes | "NullPointer at line 45 — added null check" |
+| 5-Question Check | Context verification | Answers all 5 reboot questions |
 
 ### Step 5: Update AGENTS.md (Optional)
 
