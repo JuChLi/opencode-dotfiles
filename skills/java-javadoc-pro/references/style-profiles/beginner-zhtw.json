@@ -1,0 +1,90 @@
+{
+  "name": "beginner-zhtw",
+  "language": "zh-TW",
+  "extends": "vertx",
+  "typeSummary": {
+    "class": "{name} 的主要功能實作，負責處理核心流程。",
+    "interface": "{name} 的行為規格，定義實作時需要提供的能力。",
+    "enum": "{name} 的可用選項列舉。",
+    "default": "{name} 的主要功能實作。"
+  },
+  "methodSummary": {
+    "constructor": "建立新的 {@code {name}} 實例，並初始化必要狀態。",
+    "get": "回傳目前的設定或狀態值。",
+    "set": "更新指定的設定或狀態值。",
+    "is": "回傳目前是否符合條件。",
+    "has": "回傳目前是否具備指定條件。",
+    "start": "啟動流程，讓元件進入可用狀態。",
+    "stop": "停止流程，並釋放已使用資源。",
+    "shutdown": "停止服務並進行必要的資源清理。",
+    "initialize": "初始化執行流程所需的資源。",
+    "init": "初始化執行流程所需的資源。",
+    "collect": "執行資料收集流程。",
+    "fetch": "向外部來源取得資料。",
+    "handle": "處理收到的事件或訊息。",
+    "parse": "將輸入內容解析為可用資料。",
+    "build": "建立並組合目標資料。",
+    "load": "載入設定或資料來源。",
+    "save": "儲存目前資料。",
+    "publish": "發布資料或事件給其他元件。",
+    "reset": "重設內部狀態。",
+    "toJson": "將資料轉換為 JSON 格式。",
+    "to": "將資料轉換為目標格式。",
+    "create": "建立並回傳新物件。",
+    "default": "執行這個方法的主要流程。"
+  },
+  "paramDescriptions": {
+    "vertx": "Vert.x 執行環境實例。",
+    "startPromise": "啟動完成時要回報的 Promise。",
+    "stopPromise": "停止完成時要回報的 Promise。",
+    "config": "方法使用的設定資料。",
+    "sourceId": "資料來源識別碼。",
+    "apiUrl": "目標 API URL。",
+    "endpoint": "目標端點 URL。",
+    "notificationUrl": "通知 API URL。",
+    "timeout": "允許的逾時時間（毫秒）。",
+    "token": "授權 Token。",
+    "rawData": "尚未處理的原始資料。",
+    "dataPoints": "要處理的資料點集合。",
+    "message": "EventBus 傳入的訊息。",
+    "context": "目前執行流程的上下文資訊。"
+  },
+  "paramFallback": {
+    "list": "要處理的資料集合。",
+    "id": "用來識別目標的識別值。",
+    "ms": "時間長度（毫秒）。",
+    "seconds": "時間長度（秒）。",
+    "threshold": "判斷使用的門檻值。",
+    "flag": "開關或狀態旗標。",
+    "default": "這個參數會影響方法執行行為。"
+  },
+  "returnDescriptions": {
+    "future": "非同步執行結果；成功時可取得資料，失敗時回傳錯誤。",
+    "boolean": "是否符合條件。",
+    "collection": "符合條件的結果集合。",
+    "default": "方法執行後回傳的結果。"
+  },
+  "throwsTemplate": "當輸入不合法或處理失敗時拋出例外。",
+  "bannedPatterns": [
+    {
+      "pattern": "操作結果。",
+      "reason": "避免籠統且難理解的回傳描述"
+    },
+    {
+      "pattern": "方法輸入參數。",
+      "reason": "避免模板化且低資訊量的參數描述"
+    },
+    {
+      "pattern": "參數\\s+[A-Za-z_][A-Za-z0-9_]*。",
+      "reason": "避免重複參數名稱卻未說明用途"
+    },
+    {
+      "pattern": "執行\\s+\\{@code\\s+[A-Za-z0-9_]+\\}\\s+操作。",
+      "reason": "避免無資訊的摘要句型"
+    },
+    {
+      "pattern": "傳回處理結果。",
+      "reason": "避免過度抽象的回傳描述"
+    }
+  ]
+}

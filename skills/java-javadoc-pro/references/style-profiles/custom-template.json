@@ -1,0 +1,27 @@
+{
+  "name": "custom-style",
+  "language": "zh-TW",
+  "extends": "vertx",
+  "source": "https://example.org/javadoc-style-guide",
+  "methodSummary": {
+    "default": "請覆寫為符合目標風格的摘要首句。"
+  },
+  "paramDescriptions": {
+    "sourceId": "可依風格指南覆寫此參數說明。"
+  },
+  "returnDescriptions": {
+    "default": "可依風格指南覆寫回傳語意說明。"
+  },
+  "throwsTemplate": "可依風格指南覆寫 @throws 拋出條件描述。",
+  "bannedPatterns": [
+    {
+      "pattern": "操作結果。",
+      "reason": "範例：避免過於籠統的回傳語意描述"
+    }
+  ],
+  "notes": [
+    "將此檔複製為 your-style.json 後再調整。",
+    "可搭配 extract_style_profile.py 從 URL 或文件快速產生初稿。",
+    "建議搭配 references/terminology-glossary.md 統一術語。"
+  ]
+}

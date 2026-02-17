@@ -1,0 +1,116 @@
+{
+  "name": "vertx",
+  "language": "zh-TW",
+  "extends": null,
+  "typeSummary": {
+    "class": "{name} 的主要實作。",
+    "interface": "{name} 的介面契約。",
+    "enum": "{name} 的列舉型別。",
+    "default": "{name} 的主要實作。"
+  },
+  "typeSuffixRules": {
+    "Verticle": "{name} 的 Verticle 實作，負責協調事件流程。",
+    "Adapter": "{name} 的資料介接器實作。",
+    "Client": "{name} 的外部服務客戶端實作。",
+    "Loader": "{name} 的設定載入器。",
+    "Parser": "{name} 的內容解析器實作。"
+  },
+  "methodSummary": {
+    "constructor": "建立新的 {@code {name}} 實例。",
+    "get": "回傳此方法對應的值。",
+    "set": "更新此方法對應的值。",
+    "is": "判斷是否符合目標條件。",
+    "has": "判斷是否具備指定條件。",
+    "start": "啟動相關流程。",
+    "stop": "停止相關流程並釋放資源。",
+    "shutdown": "停止相關流程並釋放資源。",
+    "initialize": "初始化必要資源。",
+    "init": "初始化必要資源。",
+    "collect": "執行資料收集流程。",
+    "fetch": "擷取遠端資料。",
+    "handle": "處理輸入事件或訊息。",
+    "parse": "解析輸入內容。",
+    "build": "建立目標資料結構。",
+    "load": "載入設定或資料。",
+    "save": "儲存資料。",
+    "publish": "發布資料或事件。",
+    "reset": "重設內部狀態。",
+    "toJson": "將資料轉換為 JSON 格式。",
+    "to": "將資料轉換為目標格式。",
+    "create": "建立並回傳新物件。",
+    "default": "執行此方法的主要處理流程。"
+  },
+  "methodPrefixOrder": [
+    "get",
+    "set",
+    "is",
+    "has",
+    "start",
+    "stop",
+    "shutdown",
+    "initialize",
+    "init",
+    "collect",
+    "fetch",
+    "handle",
+    "parse",
+    "build",
+    "load",
+    "save",
+    "publish",
+    "reset",
+    "toJson",
+    "to",
+    "create"
+  ],
+  "paramDescriptions": {
+    "vertx": "Vert.x 執行環境實例。",
+    "startPromise": "Verticle 啟動完成後回報的 Promise。",
+    "stopPromise": "Verticle 停止完成後回報的 Promise。",
+    "config": "設定來源或設定物件。",
+    "sourceId": "資料來源識別碼。",
+    "apiUrl": "目標 API URL。",
+    "endpoint": "目標端點 URL。",
+    "notificationUrl": "通知 API URL。",
+    "timeout": "逾時時間（毫秒）。",
+    "token": "授權 Token。",
+    "rawData": "原始資料內容。",
+    "dataPoints": "資料點集合。",
+    "message": "EventBus 訊息。",
+    "context": "處理上下文。"
+  },
+  "paramFallback": {
+    "list": "參數集合。",
+    "id": "識別值。",
+    "ms": "時間值（毫秒）。",
+    "seconds": "時間值（秒）。",
+    "threshold": "門檻值。",
+    "flag": "狀態旗標。",
+    "default": "輸入參數。"
+  },
+  "returnDescriptions": {
+    "future": "非同步處理結果。",
+    "boolean": "條件判斷結果。",
+    "collection": "結果集合。",
+    "default": "方法回傳結果。"
+  },
+  "throwsTemplate": "當處理過程發生錯誤時拋出。",
+  "bannedPatterns": [
+    {
+      "pattern": "操作結果。",
+      "reason": "避免使用過度泛化的 @return 描述"
+    },
+    {
+      "pattern": "參數\\s+[A-Za-z_][A-Za-z0-9_]*。",
+      "reason": "避免重複參數名稱的模板文字"
+    },
+    {
+      "pattern": "方法輸入參數。",
+      "reason": "避免模板化 @param 描述"
+    },
+    {
+      "pattern": "執行\\s+\\{@code\\s+[A-Za-z0-9_]+\\}\\s+操作。",
+      "reason": "避免低資訊量摘要句"
+    }
+  ]
+}

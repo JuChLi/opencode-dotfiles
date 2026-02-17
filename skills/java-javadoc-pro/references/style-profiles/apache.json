@@ -1,0 +1,35 @@
+{
+  "name": "apache",
+  "language": "zh-TW",
+  "extends": "vertx",
+  "typeSummary": {
+    "class": "{name} 的核心實作。",
+    "interface": "{name} 的介面契約。",
+    "enum": "{name} 的列舉型別。",
+    "default": "{name} 的核心實作。"
+  },
+  "methodSummary": {
+    "get": "回傳此方法對應的值。",
+    "set": "設定此方法對應的值。",
+    "is": "若符合條件則回傳 true。",
+    "has": "若具備指定條件則回傳 true。",
+    "default": "執行此方法的處理流程。"
+  },
+  "paramFallback": {
+    "default": "輸入參數。"
+  },
+  "returnDescriptions": {
+    "default": "方法回傳結果。"
+  },
+  "throwsTemplate": "當處理過程發生錯誤時拋出。",
+  "bannedPatterns": [
+    {
+      "pattern": "操作結果。",
+      "reason": "Apache 風格偏好明確回傳語意"
+    },
+    {
+      "pattern": "執行\\s+\\{@code\\s+[A-Za-z0-9_]+\\}\\s+操作。",
+      "reason": "Apache 風格偏好具體動詞描述"
+    }
+  ]
+}
