@@ -1,0 +1,9 @@
+{
+  "name": "pep257-skills",
+  "language": "zh-TW",
+  "extends": "pep257",
+  "source": "local://skills-python-docstring-profile",
+  "paramFallback": {
+    "default": "此參數會影響函式的執行行為。"
+  }
+}

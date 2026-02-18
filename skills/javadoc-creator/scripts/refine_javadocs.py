@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+"""
+refine_javadocs 模組的主要功能。
+
+說明此模組的主要使用情境、限制條件與注意事項。
+"""
+
 import json
 import re
 import sys
@@ -31,6 +37,15 @@ SUMMARY_END_PUNCTUATION = ("。", ".", "！", "!", "？", "?")
 
 
 def find_declaration_index(lines, doc_end):
+    """
+    執行 find_declaration_index 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param lines: 此參數會影響函式的執行行為。
+    :param doc_end: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     i = doc_end + 1
     while i < len(lines):
         trimmed = lines[i].strip()
@@ -42,6 +57,14 @@ def find_declaration_index(lines, doc_end):
 
 
 def is_weak_summary(text):
+    """
+    判斷是否符合條件。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param text: 此參數會影響函式的執行行為。
+    :returns: 條件判斷結果。
+    """
     return bool(
         re.match(
             r"^(執行此方法的主要處理流程。|取得此方法對應的值。|判斷此方法對應的狀態。|更新此方法對應的值。|執行\s+\{@code\s+[A-Za-z0-9_]+\}\s+操作。)$",
@@ -51,6 +74,14 @@ def is_weak_summary(text):
 
 
 def ensure_summary_sentence(text):
+    """
+    執行 ensure_summary_sentence 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param text: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     summary = (text or "").strip()
     if not summary:
         return ""
@@ -60,6 +91,18 @@ def ensure_summary_sentence(text):
 
 
 def refine_doc_block(lines, start, end, declaration_info, profile):
+    """
+    執行 refine_doc_block 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param lines: 此參數會影響函式的執行行為。
+    :param start: 此參數會影響函式的執行行為。
+    :param end: 此參數會影響函式的執行行為。
+    :param declaration_info: 此參數會影響函式的執行行為。
+    :param profile: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     changed = False
     summary_handled = False
 
@@ -123,6 +166,17 @@ def refine_doc_block(lines, start, end, declaration_info, profile):
 
 
 def process_file(file_path, root, include_private, profile):
+    """
+    執行 process_file 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param file_path: 檔案路徑。
+    :param root: 此參數會影響函式的執行行為。
+    :param include_private: 此參數會影響函式的執行行為。
+    :param profile: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     raw = Path(file_path).read_text(encoding="utf-8")
     eol = detect_eol(raw)
     lines = re.split(r"\r?\n", raw)
@@ -178,6 +232,13 @@ def process_file(file_path, root, include_private, profile):
 
 
 def main():
+    """
+    執行 main 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :returns: 函式回傳結果。
+    """
     args = parse_args(sys.argv[1:])
     root = resolve_root(args.root)
     profile = load_style_profile(args, Path(__file__).resolve().parent)

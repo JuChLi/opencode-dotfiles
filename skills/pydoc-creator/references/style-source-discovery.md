@@ -30,9 +30,14 @@
 ## 4) Python 官方與 Google 風格備註
 
 - PEP 257 強調摘要句與段落結構，但不綁定單一標記格式。
-- Google Python Style Guide 提供可機械化的區段格式（`Args` / `Returns` / `Raises`）。
+- Google Python Style Guide 提供可機械化的區段格式（`Args` / `Returns` 或 `Yields` / `Raises`）。
 - 若採 Google 風格，建議同時要求 `Examples` 區段以提升可讀性與可驗證性。
 - 實務上仍需以目標專案官方文件為準。
+
+Google 主要參考段落：
+
+- `https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-docstrings`
+- `https://google.github.io/styleguide/pyguide.html#s3.8.3-functions-and-methods`
 
 ## 5) 驗證清單
 

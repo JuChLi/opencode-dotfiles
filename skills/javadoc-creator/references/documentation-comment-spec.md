@@ -5,7 +5,12 @@
 官方規格文件（JDK）：
 
 - `Documentation Comment Specification for the Standard Doclet`
-- 建議參考：`https://docs.oracle.com/en/java/javase/17/docs/specs/javadoc/doc-comment-spec.html`
+- 建議參考：`https://docs.oracle.com/en/java/javase/21/docs/specs/javadoc/doc-comment-spec.html`
+
+若要對齊 Google 內容品質規範，請另外參考：
+
+- `Google Java Style Guide §7 Javadoc`
+- `https://google.github.io/styleguide/javaguide.html#s7-javadoc`
 
 ## 1) 基本結構
 

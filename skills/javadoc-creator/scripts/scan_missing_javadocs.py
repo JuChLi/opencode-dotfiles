@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+"""
+scan_missing_javadocs 模組的主要功能。
+
+說明此模組的主要使用情境、限制條件與注意事項。
+"""
+
 import json
 import re
 import sys
@@ -20,6 +26,16 @@ from javadoc_utils import (
 
 
 def scan_file(file_path, root, include_private):
+    """
+    執行 scan_file 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param file_path: 檔案路徑。
+    :param root: 此參數會影響函式的執行行為。
+    :param include_private: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     content = Path(file_path).read_text(encoding="utf-8")
     lines = re.split(r"\r?\n", content)
     missing = []
@@ -67,6 +83,13 @@ def scan_file(file_path, root, include_private):
 
 
 def main():
+    """
+    執行 main 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :returns: 函式回傳結果。
+    """
     args = parse_args(sys.argv[1:])
     root = resolve_root(args.root)
     files = list_java_files(root)

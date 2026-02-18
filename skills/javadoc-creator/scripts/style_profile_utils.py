@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+"""
+style_profile_utils 模組的主要功能。
+
+說明此模組的主要使用情境、限制條件與注意事項。
+"""
+
 import json
 import re
 from pathlib import Path
@@ -29,8 +35,23 @@ DEFAULT_PREFIX_ORDER = [
     "create",
 ]
 
+DEFAULT_DOCLET_SPEC_SOURCE = (
+    "https://docs.oracle.com/en/java/javase/21/docs/specs/javadoc/doc-comment-spec.html"
+)
+
+DEFAULT_TAG_ORDER = ["param", "return", "throws"]
+
 
 def load_json(file_path):
+    """
+    載入目標資料或設定。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param file_path: 檔案路徑。
+    :returns: 函式回傳結果。
+    :raises ValueError: 當輸入不合法或處理失敗時拋出。
+    """
     path = Path(file_path)
     if not path.exists():
         raise ValueError(f"Style file not found: {file_path}")
@@ -39,6 +60,15 @@ def load_json(file_path):
 
 
 def deep_merge(base, override):
+    """
+    執行 deep_merge 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param base: 此參數會影響函式的執行行為。
+    :param override: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     result = dict(base)
     for key, override_value in (override or {}).items():
         base_value = result.get(key)
@@ -50,6 +80,15 @@ def deep_merge(base, override):
 
 
 def resolve_style_file(style_file, cwd=None):
+    """
+    執行 resolve_style_file 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param style_file: 此參數會影響函式的執行行為。
+    :param cwd: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     if not style_file:
         return None
     path = Path(style_file)
@@ -59,6 +98,16 @@ def resolve_style_file(style_file, cwd=None):
 
 
 def resolve_builtin_style_file(style_name, script_dir):
+    """
+    執行 resolve_builtin_style_file 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param style_name: 此參數會影響函式的執行行為。
+    :param script_dir: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    :raises ValueError: 當輸入不合法或處理失敗時拋出。
+    """
     normalized = (style_name or "vertx").lower()
     style_path = Path(script_dir) / ".." / "references" / "style-profiles" / f"{normalized}.json"
     style_path = style_path.resolve()
@@ -68,6 +117,15 @@ def resolve_builtin_style_file(style_name, script_dir):
 
 
 def load_style_profile(args, script_dir):
+    """
+    載入目標資料或設定。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param args: 其他位置參數。
+    :param script_dir: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     style = getattr(args, "style", "vertx")
     style_file = getattr(args, "style_file", None)
 
@@ -108,19 +166,35 @@ def load_style_profile(args, script_dir):
     doclet_spec = profile["docletSpec"]
     doclet_spec.setdefault(
         "source",
-        "https://docs.oracle.com/en/java/javase/17/docs/specs/javadoc/doc-comment-spec.html",
+        DEFAULT_DOCLET_SPEC_SOURCE,
     )
     doclet_spec.setdefault("enforceSummarySentence", True)
+    doclet_spec.setdefault("enforceSummaryFragment", False)
+    doclet_spec.setdefault("summaryDisallowPatterns", [])
     doclet_spec.setdefault("enforceTagOrder", True)
+    doclet_spec.setdefault("tagOrder", list(DEFAULT_TAG_ORDER))
     doclet_spec.setdefault("requireParamTags", True)
     doclet_spec.setdefault("requireReturnTagForNonVoid", True)
     doclet_spec.setdefault("forbidReturnTagForVoidOrConstructor", True)
     doclet_spec.setdefault("requireDeclaredThrowsTags", True)
+    doclet_spec.setdefault("requireNonEmptyTagDescription", True)
+    doclet_spec.setdefault("requireDeprecatedDescription", False)
+    doclet_spec.setdefault("requireDeprecatedReplacementLink", False)
+    doclet_spec.setdefault("allowMissingJavadocForOverrides", False)
 
     return profile
 
 
 def render_template(template, values=None):
+    """
+    執行 render_template 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param template: 此參數會影響函式的執行行為。
+    :param values: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     if not template:
         return ""
     values = values or {}
@@ -135,6 +209,15 @@ def render_template(template, values=None):
 
 
 def choose_type_summary(profile, type_info):
+    """
+    執行 choose_type_summary 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param profile: 此參數會影響函式的執行行為。
+    :param type_info: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     kind = type_info["kind"]
     name = type_info["name"]
     suffix_rules = profile.get("typeSuffixRules", {})
@@ -157,6 +240,15 @@ def choose_type_summary(profile, type_info):
 
 
 def choose_method_summary(profile, method_info):
+    """
+    執行 choose_method_summary 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param profile: 此參數會影響函式的執行行為。
+    :param method_info: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     method_summary = profile.get("methodSummary", {})
 
     if method_info.get("isConstructor") and method_summary.get("constructor"):
@@ -173,6 +265,15 @@ def choose_method_summary(profile, method_info):
 
 
 def choose_param_description(profile, param_name):
+    """
+    執行 choose_param_description 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param profile: 此參數會影響函式的執行行為。
+    :param param_name: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     direct = profile.get("paramDescriptions", {}).get(param_name)
     if direct:
         return direct
@@ -195,6 +296,15 @@ def choose_param_description(profile, param_name):
 
 
 def choose_return_description(profile, return_type):
+    """
+    執行 choose_return_description 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param profile: 此參數會影響函式的執行行為。
+    :param return_type: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     if not return_type or return_type == "void":
         return None
 
@@ -209,6 +319,14 @@ def choose_return_description(profile, return_type):
 
 
 def normalize_banned_patterns(profile):
+    """
+    執行 normalize_banned_patterns 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param profile: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     normalized = []
     for entry in profile.get("bannedPatterns", []):
         if isinstance(entry, str):

@@ -3,13 +3,24 @@
   "language": "zh-TW",
   "extends": "vertx",
   "docletSpec": {
-    "source": "https://docs.oracle.com/en/java/javase/17/docs/specs/javadoc/doc-comment-spec.html",
+    "source": "https://docs.oracle.com/en/java/javase/21/docs/specs/javadoc/doc-comment-spec.html",
     "enforceSummarySentence": true,
+    "enforceSummaryFragment": false,
+    "summaryDisallowPatterns": [],
     "enforceTagOrder": true,
+    "tagOrder": [
+      "param",
+      "return",
+      "throws"
+    ],
     "requireParamTags": true,
     "requireReturnTagForNonVoid": true,
     "forbidReturnTagForVoidOrConstructor": true,
-    "requireDeclaredThrowsTags": true
+    "requireDeclaredThrowsTags": true,
+    "requireNonEmptyTagDescription": true,
+    "requireDeprecatedDescription": false,
+    "requireDeprecatedReplacementLink": false,
+    "allowMissingJavadocForOverrides": false
   },
   "typeSummary": {
     "class": "{name} 的主要功能實作，負責處理核心流程。",

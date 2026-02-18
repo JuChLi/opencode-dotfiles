@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+"""
+lint_javadocs 模組的主要功能。
+
+說明此模組的主要使用情境、限制條件與注意事項。
+"""
+
 import json
 import re
 import sys
@@ -23,21 +29,39 @@ from style_profile_utils import load_style_profile, normalize_banned_patterns
 
 
 SUMMARY_END_PUNCTUATION = ("。", ".", "！", "!", "？", "?")
-CORE_TAG_RANK = {
-    "param": 1,
-    "return": 2,
-    "throws": 3,
-    "exception": 3,
-}
+
+DEFAULT_TAG_ORDER = ["param", "return", "throws"]
+DEFAULT_SUMMARY_DISALLOW_PATTERNS = [
+    r"^This\s+method\b",
+    r"^A\s+\{@code\s+[^}]+\}\s+is\s+a\b",
+    r"^此方法",
+    r"^這個方法",
+]
 
 
 def normalize_exception_name(value):
+    """
+    執行 normalize_exception_name 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param value: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     if not value:
         return None
     return value.strip().split(".")[-1]
 
 
 def extract_doc_content(line):
+    """
+    執行 extract_doc_content 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param line: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     text = line.strip()
     if text.startswith("/**"):
         text = text[3:]
@@ -50,6 +74,15 @@ def extract_doc_content(line):
 
 
 def locate_javadoc_block_before(lines, insertion_index):
+    """
+    執行 locate_javadoc_block_before 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param lines: 此參數會影響函式的執行行為。
+    :param insertion_index: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     probe = insertion_index - 1
     while probe >= 0:
         text = lines[probe].strip()
@@ -78,6 +111,16 @@ def locate_javadoc_block_before(lines, insertion_index):
 
 
 def parse_javadoc_block(lines, start, end):
+    """
+    解析輸入內容。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param lines: 此參數會影響函式的執行行為。
+    :param start: 此參數會影響函式的執行行為。
+    :param end: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     summary = None
     detail_lines = []
     tags = []
@@ -95,13 +138,26 @@ def parse_javadoc_block(lines, start, end):
         if content.startswith("@"):
             if first_tag_line is None:
                 first_tag_line = index + 1
-            match = re.match(r"^@([A-Za-z]+)(?:\s+([^\s]+))?(?:\s+(.*))?$", content)
+            match = re.match(r"^@([A-Za-z]+)(.*)$", content)
             if match:
+                tag_name = match.group(1).lower()
+                rest = (match.group(2) or "").strip()
+                arg = None
+                text = ""
+
+                if tag_name in {"param", "throws", "exception"}:
+                    if rest:
+                        parts = rest.split(None, 1)
+                        arg = parts[0]
+                        text = parts[1] if len(parts) > 1 else ""
+                else:
+                    text = rest
+
                 tags.append(
                     {
-                        "name": match.group(1).lower(),
-                        "arg": match.group(2),
-                        "text": match.group(3) or "",
+                        "name": tag_name,
+                        "arg": arg,
+                        "text": text,
                         "line": index + 1,
                     }
                 )
@@ -139,6 +195,18 @@ def parse_javadoc_block(lines, start, end):
 
 
 def build_issue(file_path, line, kind, detail, extra=None):
+    """
+    建立目標資料結構。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param file_path: 檔案路徑。
+    :param line: 此參數會影響函式的執行行為。
+    :param kind: 此參數會影響函式的執行行為。
+    :param detail: 此參數會影響函式的執行行為。
+    :param extra: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     issue = {
         "file": file_path,
         "line": line,
@@ -150,7 +218,87 @@ def build_issue(file_path, line, kind, detail, extra=None):
     return issue
 
 
+def normalize_tag_name(tag_name):
+    """
+    執行 normalize_tag_name 的核心流程並回傳結果。
+
+    說明此函式的主要流程、輸入限制與輸出語意。
+
+    :param tag_name: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
+    if tag_name == "exception":
+        return "throws"
+    return tag_name
+
+
+def build_tag_rank(tag_order):
+    """
+    建立目標資料結構。
+
+    說明此函式的主要流程、輸入限制與輸出語意。
+
+    :param tag_order: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
+    rank = {}
+    for index, raw_name in enumerate(tag_order, start=1):
+        name = normalize_tag_name(str(raw_name).lower())
+        rank[name] = index
+
+    if "throws" in rank:
+        rank["exception"] = rank["throws"]
+
+    return rank
+
+
+def contains_link_reference(text):
+    """
+    判斷是否具備指定條件。
+
+    說明此函式的主要流程、輸入限制與輸出語意。
+
+    :param text: 此參數會影響函式的執行行為。
+    :returns: 條件判斷結果。
+    """
+    if not text:
+        return False
+    return bool(re.search(r"\{@link\s+[^}]+\}", text))
+
+
+def has_override_annotation(lines, start_index, declaration_index):
+    """
+    判斷是否具備指定條件。
+
+    說明此函式的主要流程、輸入限制與輸出語意。
+
+    :param lines: 此參數會影響函式的執行行為。
+    :param start_index: 此參數會影響函式的執行行為。
+    :param declaration_index: 此參數會影響函式的執行行為。
+    :returns: 條件判斷結果。
+    """
+    for index in range(start_index, declaration_index):
+        text = lines[index].strip()
+        if not text or not text.startswith("@"):
+            continue
+        if re.match(r"^@Override\b", text):
+            return True
+    return False
+
+
 def validate_doclet_structure(file_path, block, declaration_kind, method_info, doclet_spec):
+    """
+    驗證輸入資料是否符合規範。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param file_path: 檔案路徑。
+    :param block: 此參數會影響函式的執行行為。
+    :param declaration_kind: 此參數會影響函式的執行行為。
+    :param method_info: 此參數會影響函式的執行行為。
+    :param doclet_spec: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     issues = []
     summary = block.get("summary")
     tags = block.get("tags", [])
@@ -176,6 +324,31 @@ def validate_doclet_structure(file_path, block, declaration_kind, method_info, d
                 )
             )
 
+    if doclet_spec.get("enforceSummaryFragment", False) and summary:
+        configured_patterns = doclet_spec.get("summaryDisallowPatterns")
+        if isinstance(configured_patterns, list) and configured_patterns:
+            summary_patterns = configured_patterns
+        else:
+            summary_patterns = DEFAULT_SUMMARY_DISALLOW_PATTERNS
+
+        for pattern in summary_patterns:
+            try:
+                regex = re.compile(pattern)
+            except re.error:
+                continue
+
+            if regex.search(summary):
+                issues.append(
+                    build_issue(
+                        file_path,
+                        block_start_line,
+                        "summary-fragment",
+                        "摘要句型不符合 Google Javadoc summary fragment 建議，請避免模板開頭。",
+                        extra={"pattern": pattern},
+                    )
+                )
+                break
+
     if tags and not block.get("hasBlankBeforeFirstTag"):
         issues.append(
             build_issue(
@@ -196,25 +369,101 @@ def validate_doclet_structure(file_path, block, declaration_kind, method_info, d
             )
         )
 
-    if not doclet_spec.get("enforceTagOrder", True):
-        return issues
+    raw_tag_order = doclet_spec.get("tagOrder")
+    if isinstance(raw_tag_order, list) and raw_tag_order:
+        tag_order = [normalize_tag_name(str(name).lower()) for name in raw_tag_order]
+    else:
+        tag_order = list(DEFAULT_TAG_ORDER)
 
-    previous_rank = 0
-    for tag in tags:
-        rank = CORE_TAG_RANK.get(tag["name"])
-        if rank is None:
-            continue
-        if rank < previous_rank:
-            issues.append(
-                build_issue(
-                    file_path,
-                    tag["line"],
-                    "tag-order",
-                    "核心 tags 順序需為 @param -> @return -> @throws。",
+    tag_rank = build_tag_rank(tag_order)
+    order_display = []
+    for name in tag_order:
+        if name not in order_display:
+            order_display.append(name)
+    expected_tag_order = " -> ".join(f"@{name}" for name in order_display)
+
+    if doclet_spec.get("enforceTagOrder", True):
+        previous_rank = 0
+        for tag in tags:
+            normalized_name = normalize_tag_name(tag["name"])
+            rank = tag_rank.get(normalized_name)
+            if rank is None:
+                continue
+            if rank < previous_rank:
+                issues.append(
+                    build_issue(
+                        file_path,
+                        tag["line"],
+                        "tag-order",
+                        f"核心 tags 順序需為 {expected_tag_order}。",
+                    )
                 )
+                break
+            previous_rank = rank
+
+    if doclet_spec.get("requireNonEmptyTagDescription", True):
+        for tag in tags:
+            normalized_name = normalize_tag_name(tag["name"])
+            if normalized_name not in {"param", "return", "throws"}:
+                continue
+
+            if normalized_name in {"param", "throws"} and not (tag.get("arg") or "").strip():
+                issues.append(
+                    build_issue(
+                        file_path,
+                        tag["line"],
+                        "missing-tag-argument",
+                        f"@{normalized_name} 缺少必要目標名稱。",
+                    )
+                )
+
+            if not (tag.get("text") or "").strip():
+                issues.append(
+                    build_issue(
+                        file_path,
+                        tag["line"],
+                        "empty-tag-description",
+                        f"@{normalized_name} 不可使用空白描述。",
+                    )
+                )
+
+    deprecated_tags = [tag for tag in tags if tag["name"] == "deprecated"]
+    if len(deprecated_tags) > 1:
+        issues.append(
+            build_issue(
+                file_path,
+                deprecated_tags[1]["line"],
+                "duplicate-deprecated-tag",
+                "@deprecated 不可重複出現。",
             )
-            break
-        previous_rank = rank
+        )
+
+    if doclet_spec.get("requireDeprecatedDescription", False):
+        for tag in deprecated_tags:
+            if not (tag.get("text") or "").strip():
+                issues.append(
+                    build_issue(
+                        file_path,
+                        tag["line"],
+                        "missing-deprecated-description",
+                        "@deprecated 需包含棄用原因與替代方案。",
+                    )
+                )
+
+    if doclet_spec.get("requireDeprecatedReplacementLink", False):
+        for tag in deprecated_tags:
+            text = (tag.get("text") or "").strip()
+            if not text:
+                continue
+            if not contains_link_reference(text):
+                issues.append(
+                    build_issue(
+                        file_path,
+                        tag["line"],
+                        "missing-deprecated-link",
+                        "@deprecated 建議包含 {@link ...} 指向替代 API。",
+                    )
+                )
 
     if declaration_kind != "method" or not method_info:
         return issues
@@ -326,6 +575,18 @@ def validate_doclet_structure(file_path, block, declaration_kind, method_info, d
 
 
 def scan_quality(file_path, root, include_private, profile, banned_patterns):
+    """
+    執行 scan_quality 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param file_path: 檔案路徑。
+    :param root: 此參數會影響函式的執行行為。
+    :param include_private: 此參數會影響函式的執行行為。
+    :param profile: 此參數會影響函式的執行行為。
+    :param banned_patterns: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     content = Path(file_path).read_text(encoding="utf-8")
     lines = re.split(r"\r?\n", content)
     issues = []
@@ -374,14 +635,16 @@ def scan_quality(file_path, root, include_private, profile, banned_patterns):
                     method_info["line"] = i + 1
 
                 if not has_javadoc(lines, insertion_index):
-                    issues.append(
-                        build_issue(
-                            rel_file,
-                            i + 1,
-                            "missing-javadoc",
-                            "方法缺少 Javadoc。",
+                    is_override = has_override_annotation(lines, insertion_index, i)
+                    if not (doclet_spec.get("allowMissingJavadocForOverrides", False) and is_override):
+                        issues.append(
+                            build_issue(
+                                rel_file,
+                                i + 1,
+                                "missing-javadoc",
+                                "方法缺少 Javadoc。",
+                            )
                         )
-                    )
                 else:
                     block_loc = locate_javadoc_block_before(lines, insertion_index)
                     if block_loc:
@@ -417,6 +680,14 @@ def scan_quality(file_path, root, include_private, profile, banned_patterns):
 
 
 def main():
+    """
+    執行 main 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :returns: 函式回傳結果。
+    :raises SystemExit: 當輸入不合法或處理失敗時拋出。
+    """
     args = parse_args(sys.argv[1:])
     root = resolve_root(args.root)
     profile = load_style_profile(args, Path(__file__).resolve().parent)

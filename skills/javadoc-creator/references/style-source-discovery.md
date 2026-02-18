@@ -10,6 +10,10 @@
 2. 官方 GitHub repository（`CONTRIBUTING.md`、`STYLEGUIDE`、`checkstyle`）
 3. 官方 API/Javadoc 文件（用於術語與句型偏好）
 
+若需求是 Google 風格，優先使用：
+
+- `https://google.github.io/styleguide/javaguide.html#s7-javadoc`
+
 避免將來源不明的部落格當成唯一依據。
 
 ## 2) 搜尋關鍵字

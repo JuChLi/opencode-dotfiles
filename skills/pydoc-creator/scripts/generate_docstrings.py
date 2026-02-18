@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+"""
+generate_docstrings 模組的主要功能。
+
+說明此模組的主要使用情境、限制條件與注意事項。
+"""
+
 from __future__ import annotations
 
 import json
@@ -22,6 +28,20 @@ from style_profile_utils import build_docstring_body, load_style_profile
 
 
 def process_file(file_path: str, root: str, include_private: bool, profile: dict) -> dict:
+    """
+    執行 process_file 的核心流程並回傳結果。
+    
+    說明函式處理流程、輸入限制與輸出語意。
+    
+    Args:
+        file_path: 這個參數會影響函式的執行行為。
+        root: 這個參數會影響函式的執行行為。
+        include_private: 這個參數會影響函式的執行行為。
+        profile: 這個參數會影響函式的執行行為。
+    
+    Returns:
+        符合條件的結果集合。
+    """
     raw, tree = parse_python_source(file_path)
     eol = detect_eol(raw)
     lines = split_lines(raw)
@@ -33,6 +53,18 @@ def process_file(file_path: str, root: str, include_private: bool, profile: dict
     for target in targets:
         if target.has_docstring:
             continue
+
+        if (
+            target.kind == "method"
+            and target.is_override
+            and profile.get("allowMissingDocstringForOverrides", False)
+        ):
+            continue
+
+        if target.kind == "module" and profile.get("allowMissingModuleDocstringForTests", False):
+            module_name = Path(file_path).stem
+            if module_name.startswith("test_") or module_name.endswith("_test"):
+                continue
 
         body_lines = build_docstring_body(profile, target)
         doc_lines = render_docstring_block(body_lines, target.indent)
@@ -55,6 +87,11 @@ def process_file(file_path: str, root: str, include_private: bool, profile: dict
 
 
 def main() -> None:
+    """
+    執行 main 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    """
     args = parse_args(sys.argv[1:])
     root = resolve_root(args.root)
     profile = load_style_profile(args, Path(__file__).resolve().parent)

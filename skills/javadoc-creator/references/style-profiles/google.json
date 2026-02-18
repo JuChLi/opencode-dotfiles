@@ -1,0 +1,79 @@
+{
+  "name": "google",
+  "language": "zh-TW",
+  "extends": "vertx",
+  "source": "https://google.github.io/styleguide/javaguide.html#s7-javadoc",
+  "docletSpec": {
+    "source": "https://docs.oracle.com/en/java/javase/21/docs/specs/javadoc/doc-comment-spec.html",
+    "enforceSummarySentence": true,
+    "enforceSummaryFragment": true,
+    "summaryDisallowPatterns": [
+      "^This\\s+method\\b",
+      "^This\\s+class\\b",
+      "^A\\s+\\{@code\\s+[^}]+\\}\\s+is\\s+a\\b",
+      "^此方法",
+      "^這個方法",
+      "^本方法",
+      "^回傳此方法"
+    ],
+    "enforceTagOrder": true,
+    "tagOrder": [
+      "param",
+      "return",
+      "throws",
+      "deprecated"
+    ],
+    "requireParamTags": true,
+    "requireReturnTagForNonVoid": true,
+    "forbidReturnTagForVoidOrConstructor": true,
+    "requireDeclaredThrowsTags": true,
+    "requireNonEmptyTagDescription": true,
+    "requireDeprecatedDescription": true,
+    "requireDeprecatedReplacementLink": true,
+    "allowMissingJavadocForOverrides": true
+  },
+  "methodSummary": {
+    "constructor": "建立新的 {@code {name}} 實例。",
+    "get": "回傳對應的值。",
+    "set": "設定對應的值。",
+    "is": "回傳是否符合條件。",
+    "has": "回傳是否具備指定條件。",
+    "start": "啟動相關流程。",
+    "stop": "停止相關流程並釋放資源。",
+    "shutdown": "停止相關流程並釋放資源。",
+    "initialize": "初始化必要資源。",
+    "init": "初始化必要資源。",
+    "collect": "執行資料收集流程。",
+    "fetch": "擷取遠端資料。",
+    "handle": "處理輸入事件或訊息。",
+    "parse": "解析輸入內容。",
+    "build": "建立目標資料結構。",
+    "load": "載入設定或資料。",
+    "save": "儲存資料。",
+    "publish": "發布資料或事件。",
+    "reset": "重設內部狀態。",
+    "toJson": "將資料轉換為 JSON 格式。",
+    "to": "將資料轉換為目標格式。",
+    "create": "建立並回傳新物件。",
+    "default": "執行主要處理流程。"
+  },
+  "throwsTemplate": "當不符合前置條件或處理失敗時拋出。",
+  "bannedPatterns": [
+    {
+      "pattern": "操作結果。",
+      "reason": "避免使用過度泛化的 @return 描述"
+    },
+    {
+      "pattern": "方法輸入參數。",
+      "reason": "避免模板化 @param 描述"
+    },
+    {
+      "pattern": "執行\\s+\\{@code\\s+[A-Za-z0-9_]+\\}\\s+操作。",
+      "reason": "避免低資訊量摘要句"
+    },
+    {
+      "pattern": "回傳此方法對應的值。",
+      "reason": "避免以 This method 類句型撰寫摘要"
+    }
+  ]
+}

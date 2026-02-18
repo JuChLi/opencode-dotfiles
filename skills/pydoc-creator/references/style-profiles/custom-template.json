@@ -28,6 +28,8 @@
     "將此檔複製為 your-style.json 後再調整。",
     "extends 可使用 pep257（官方）或 google（Google Style）。",
     "docstringFormat 只允許 rest 或 google。",
+    "若為 Google 風格，可設定 allowMissingDocstringForOverrides / enforceYieldsSectionForGenerators / requireGoogleExamples。",
+    "可用 enforceSummaryLineMaxLength 與 summaryLineMaxLength 控制摘要長度（Google 建議 80）。",
     "可搭配 extract_style_profile.py 從 URL 或文件快速產生初稿。",
     "建議搭配 references/terminology-glossary.md 統一術語。"
   ]

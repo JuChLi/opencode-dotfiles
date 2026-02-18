@@ -23,7 +23,7 @@ description: 使用台灣繁體中文產生、精修與 lint 高品質 Python do
 ### 內建風格
 
 - `pep257`: 參考 Python 官方 PEP 257，採摘要 + 詳細描述，並以 reST 標記（`:param` / `:returns` / `:raises`）呈現欄位。
-- `google`: 參考 Google Python Style Guide，採摘要 + 詳細描述 + `Args` / `Returns` / `Raises` / `Examples` 區段。
+- `google`: 參考 Google Python Style Guide，採摘要 + 可選詳細描述 + `Args` / `Returns`（或 generator 的 `Yields`）/ `Raises` 區段，`Examples` 依專案需求啟用。
 
 ### 從外部來源建立自訂風格
 
@@ -68,9 +68,11 @@ python scripts/generate_docstrings.py --root src --style pep257 \
 - 產生內容使用台灣繁體中文（`zh-TW`）。
 - 不使用 emoji 或裝飾符號。
 - 摘要首句需聚焦行為與用途，不可只重複函式名稱。
-- 摘要後需有至少一段詳細描述（用途、限制、注意事項）。
+- Google 風格下，摘要首句建議單行且不超過 80 字元；若有補充內容，摘要後需空一行。
+- 詳細描述段落可依風格決定是否必填（Google 允許符合條件時使用 one-line docstring）。
 - `async def` 需描述非同步完成語意。
-- Google 風格需包含 `Examples` 區段；PEP 257 風格需維持官方段落結構與一致欄位標記。
+- Google 風格的 generator 應使用 `Yields`，非 generator 使用 `Returns`。
+- Google 風格下，`@override` 方法可省略 docstring（若未改變契約）；PEP 257 風格需維持官方段落結構與一致欄位標記。
 - 避免低資訊句型（例如「執行某功能」「輸入參數」）。
 
 ## 參考文件

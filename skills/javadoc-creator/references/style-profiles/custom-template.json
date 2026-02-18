@@ -4,13 +4,24 @@
   "extends": "vertx",
   "source": "https://example.org/javadoc-style-guide",
   "docletSpec": {
-    "source": "https://docs.oracle.com/en/java/javase/17/docs/specs/javadoc/doc-comment-spec.html",
+    "source": "https://docs.oracle.com/en/java/javase/21/docs/specs/javadoc/doc-comment-spec.html",
     "enforceSummarySentence": true,
+    "enforceSummaryFragment": false,
+    "summaryDisallowPatterns": [],
     "enforceTagOrder": true,
+    "tagOrder": [
+      "param",
+      "return",
+      "throws"
+    ],
     "requireParamTags": true,
     "requireReturnTagForNonVoid": true,
     "forbidReturnTagForVoidOrConstructor": true,
-    "requireDeclaredThrowsTags": true
+    "requireDeclaredThrowsTags": true,
+    "requireNonEmptyTagDescription": true,
+    "requireDeprecatedDescription": false,
+    "requireDeprecatedReplacementLink": false,
+    "allowMissingJavadocForOverrides": false
   },
   "methodSummary": {
     "default": "請覆寫為符合目標風格的摘要首句。"
@@ -31,6 +42,7 @@
   "notes": [
     "將此檔複製為 your-style.json 後再調整。",
     "先維持 docletSpec 的核心規範，再調整語氣與術語。",
+    "若需要 Google Javadoc 行為，可將 extends 改為 google。",
     "可搭配 extract_style_profile.py 從 URL 或文件快速產生初稿。",
     "建議搭配 references/terminology-glossary.md 統一術語。"
   ]

@@ -1,6 +1,6 @@
 ---
 name: javadoc-creator
-description: 使用台灣繁體中文產生、精修與 lint 高品質 Java Javadoc，並可切換 Vert.x、Apache 或自訂 style profile。所有輸出需先符合 Javadoc 官方 Documentation Comment Specification for the Standard Doclet，再套用專案風格。當使用者需要大量補齊 Javadoc、提升註解品質、對齊特定框架/函式庫風格，或把模板註解升級為可維護的 API 文件時使用。
+description: 使用台灣繁體中文產生、精修與 lint 高品質 Java Javadoc，並可切換 Vert.x、Apache、Google Java Style 或自訂 style profile。所有輸出需先符合 Javadoc 官方 Documentation Comment Specification for the Standard Doclet，再套用專案風格。當使用者需要大量補齊 Javadoc、提升註解品質、對齊特定框架/函式庫風格，或把模板註解升級為可維護的 API 文件時使用。
 ---
 
 # Javadoc Creator
@@ -10,7 +10,7 @@ description: 使用台灣繁體中文產生、精修與 lint 高品質 Java Java
 ## 核心流程
 
 1. 決定風格來源：
-   - 使用內建 profile（`Documentation Comment Specification for the Standard Doclet` 或 `vertx` 或 `apache`），或
+   - 使用內建 profile（`vertx`、`apache`、`google`），或
    - 由使用者提供的 style guide URL/檔案建立 custom profile。
 2. 先用 `scan_missing_javadocs.py` 掃描目前覆蓋率。
 3. 用 `generate_javadocs.py` 補齊缺漏。
@@ -24,6 +24,7 @@ description: 使用台灣繁體中文產生、精修與 lint 高品質 Java Java
 
 - `vertx`: 摘要精簡，強調非同步語意。
 - `apache`: 保守、明確、偏 Apache 風格語氣。
+- `google`: 對齊 Google Java Style Guide `§7 Javadoc`（summary fragment、tag 順序、`@deprecated` 規範）。
 - `beginner-zhtw`: 以初學者可讀性為優先，使用白話、明確且避免術語堆疊。
 
 ### 從外部來源建立自訂風格
@@ -41,14 +42,14 @@ description: 使用台灣繁體中文產生、精修與 lint 高品質 Java Java
 # 1) 掃描（以 Vert.x 風格為基準）
 python scripts/scan_missing_javadocs.py --root src/main/java --style vertx
 
-# 2) 以 Apache 風格補齊缺漏
-python scripts/generate_javadocs.py --root src/main/java --style apache
+# 2) 以 Google 風格補齊缺漏
+python scripts/generate_javadocs.py --root src/main/java --style google
 
 # 3) 以同一風格精修文字
-python scripts/refine_javadocs.py --root src/main/java --style apache
+python scripts/refine_javadocs.py --root src/main/java --style google
 
 # 4) 執行品質閘門
-python scripts/lint_javadocs.py --root src/main/java --style apache
+python scripts/lint_javadocs.py --root src/main/java --style google
 
 # 5) 初學者可讀模式
 python scripts/generate_javadocs.py --root src/main/java --style beginner-zhtw
@@ -70,10 +71,12 @@ python scripts/generate_javadocs.py --root src/main/java --style vertx \
 ## 約束
 
 - 先符合 `Documentation Comment Specification for the Standard Doclet` 核心規範，再套用風格差異。
+- 若使用 `google` 風格，摘要需符合 summary fragment 慣例（避免 `This method ...`/「此方法...」句型）。
 - 產生內容使用台灣繁體中文（`zh-TW`）。
 - 不使用 emoji 或裝飾符號。
 - 摘要首句需聚焦行為與用途。
 - block tags 需遵守核心順序：`@param` -> `@return` -> `@throws`。
+- 若出現 `@deprecated`，需提供棄用原因與替代 API（建議使用 `{@link ...}`）。
 - 非 `void` 且非建構子方法需有 `@return`；`void`/建構子不可出現 `@return`。
 - 對 `Future` 回傳型別需描述非同步完成語意。
 - 避免低資訊句型（例如「操作結果」「方法輸入參數」）。
@@ -87,5 +90,6 @@ python scripts/generate_javadocs.py --root src/main/java --style vertx \
 - `references/style-source-discovery.md`
 - `references/style-profiles/vertx.json`
 - `references/style-profiles/apache.json`
+- `references/style-profiles/google.json`
 - `references/style-profiles/beginner-zhtw.json`
 - `references/style-profiles/custom-template.json`

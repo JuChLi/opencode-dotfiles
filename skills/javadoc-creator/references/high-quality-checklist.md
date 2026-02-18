@@ -13,17 +13,21 @@
 - [ ] 摘要句非空，且位於主描述第一段。
 - [ ] block tags 位於主描述後方，並有清楚分段。
 - [ ] 核心 tag 順序為 `@param` -> `@return` -> `@throws`。
+- [ ] 若使用 Google 風格，`@deprecated` 位於 `@throws` 之後。
 - [ ] 每個方法參數都有對應 `@param`。
 - [ ] 非 `void` 且非建構子有 `@return`。
 - [ ] `void`/建構子沒有 `@return`。
 - [ ] 宣告 `throws` 的例外有對應 `@throws` 說明。
+- [ ] 核心 tags（`@param/@return/@throws/@deprecated`）沒有空白描述。
 
 ## 語意正確性
 
 - [ ] 摘要首句與方法實際行為一致。
+- [ ] 若使用 Google 風格，摘要符合 summary fragment（避免 `This method...` / 「此方法...」）。
 - [ ] `@param` 描述參數用途，而不是重複參數名稱。
 - [ ] `@return` 反映真實回傳語意。
 - [ ] `@throws` 反映真實拋出條件。
+- [ ] 若使用 `@deprecated`，已描述棄用原因與替代 API（建議 `{@link ...}`）。
 
 ## 非同步與 Reactive 語意
 

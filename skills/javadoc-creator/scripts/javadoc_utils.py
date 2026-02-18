@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+"""
+javadoc_utils 模組的主要功能。
+
+說明此模組的主要使用情境、限制條件與注意事項。
+"""
+
 import os
 import re
 from dataclasses import dataclass
@@ -9,6 +15,11 @@ from typing import Optional
 
 @dataclass
 class ScriptArgs:
+    """
+    ScriptArgs 的核心行為實作。
+    
+    說明此類別管理的狀態、核心流程與建議使用方式。
+    """
     root: str = "src/main/java"
     include_private: bool = False
     json: bool = False
@@ -18,6 +29,14 @@ class ScriptArgs:
 
 
 def parse_args(argv):
+    """
+    解析輸入內容。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param argv: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     args = ScriptArgs()
     i = 0
     while i < len(argv):
@@ -56,6 +75,15 @@ def parse_args(argv):
 
 
 def resolve_root(root_arg):
+    """
+    執行 resolve_root 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param root_arg: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    :raises ValueError: 當輸入不合法或處理失敗時拋出。
+    """
     root = Path(root_arg)
     if not root.is_absolute():
         root = Path.cwd() / root
@@ -66,6 +94,14 @@ def resolve_root(root_arg):
 
 
 def list_java_files(directory):
+    """
+    執行 list_java_files 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param directory: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     root = Path(directory)
     files = []
     for current_root, dir_names, file_names in os.walk(root):
@@ -77,14 +113,40 @@ def list_java_files(directory):
 
 
 def relative_path(file_path, root):
+    """
+    執行 relative_path 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param file_path: 檔案路徑。
+    :param root: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     return os.path.relpath(file_path, root).replace("\\", "/")
 
 
 def detect_eol(content):
+    """
+    執行 detect_eol 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param content: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     return "\r\n" if "\r\n" in content else "\n"
 
 
 def has_javadoc(lines, index):
+    """
+    判斷是否具備指定條件。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param lines: 此參數會影響函式的執行行為。
+    :param index: 此參數會影響函式的執行行為。
+    :returns: 條件判斷結果。
+    """
     i = index - 1
     while i >= 0:
         line = lines[i].strip()
@@ -115,6 +177,14 @@ def has_javadoc(lines, index):
 
 
 def is_type_declaration(line):
+    """
+    判斷是否符合條件。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param line: 此參數會影響函式的執行行為。
+    :returns: 條件判斷結果。
+    """
     trimmed = line.strip()
     return bool(
         re.match(
@@ -125,6 +195,14 @@ def is_type_declaration(line):
 
 
 def parse_type_declaration(line):
+    """
+    解析輸入內容。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param line: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     trimmed = line.strip()
     match = re.match(
         r"^(?:public\s+)?(?:abstract\s+|final\s+)?(class|interface|enum)\s+([A-Za-z_]\w*)",
@@ -140,6 +218,14 @@ def parse_type_declaration(line):
 
 
 def split_params(raw):
+    """
+    執行 split_params 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param raw: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     result = []
     current = []
     angle_depth = 0
@@ -167,6 +253,14 @@ def split_params(raw):
 
 
 def extract_param_name(param):
+    """
+    執行 extract_param_name 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param param: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     if not param:
         return None
 
@@ -185,6 +279,15 @@ def extract_param_name(param):
 
 
 def is_method_start_line(line, include_private=False):
+    """
+    判斷是否符合條件。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param line: 此參數會影響函式的執行行為。
+    :param include_private: 此參數會影響函式的執行行為。
+    :returns: 條件判斷結果。
+    """
     trimmed = line.strip()
     visibility = r"(public|protected|private)" if include_private else r"(public|protected)"
     if not re.match(rf"^{visibility}\s+", trimmed):
@@ -195,6 +298,15 @@ def is_method_start_line(line, include_private=False):
 
 
 def collect_method_signature(lines, start_index):
+    """
+    執行 collect_method_signature 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param lines: 此參數會影響函式的執行行為。
+    :param start_index: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     end_index = start_index
     signature = lines[start_index].strip()
 
@@ -217,6 +329,15 @@ def collect_method_signature(lines, start_index):
 
 
 def is_method_declaration(signature, include_private=False):
+    """
+    判斷是否符合條件。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param signature: 此參數會影響函式的執行行為。
+    :param include_private: 此參數會影響函式的執行行為。
+    :returns: 條件判斷結果。
+    """
     trimmed = signature.strip()
     visibility = r"(public|protected|private)" if include_private else r"(public|protected)"
     if not re.match(rf"^{visibility}\s+", trimmed):
@@ -231,6 +352,15 @@ def is_method_declaration(signature, include_private=False):
 
 
 def parse_method_declaration(signature, class_name):
+    """
+    解析輸入內容。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param signature: 此參數會影響函式的執行行為。
+    :param class_name: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     trimmed = re.sub(r"[;{]\s*$", "", signature.strip()).strip()
     open_index = trimmed.find("(")
     close_index = trimmed.rfind(")")
@@ -280,6 +410,15 @@ def parse_method_declaration(signature, class_name):
 
 
 def find_insertion_index(lines, method_start):
+    """
+    執行 find_insertion_index 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param lines: 此參數會影響函式的執行行為。
+    :param method_start: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     insertion_index = method_start
     while insertion_index > 0 and lines[insertion_index - 1].strip().startswith("@"):
         insertion_index -= 1
@@ -287,6 +426,14 @@ def find_insertion_index(lines, method_start):
 
 
 def reorder_doc_before_annotations(lines):
+    """
+    執行 reorder_doc_before_annotations 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param lines: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     changed = False
     i = 0
     while i < len(lines):

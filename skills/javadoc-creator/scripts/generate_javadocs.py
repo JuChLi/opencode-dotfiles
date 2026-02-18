@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+"""
+generate_javadocs 模組的主要功能。
+
+說明此模組的主要使用情境、限制條件與注意事項。
+"""
+
 import json
 import re
 import sys
@@ -32,6 +38,14 @@ from style_profile_utils import (
 
 
 def ensure_summary_sentence(text):
+    """
+    執行 ensure_summary_sentence 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param text: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     summary = (text or "").strip()
     if not summary:
         return "執行此方法的主要流程。"
@@ -41,11 +55,29 @@ def ensure_summary_sentence(text):
 
 
 def leading_indent(line):
+    """
+    執行 leading_indent 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param line: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     match = re.match(r"^\s*", line or "")
     return match.group(0) if match else ""
 
 
 def build_type_javadoc(type_info, indent, profile):
+    """
+    建立目標資料結構。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param type_info: 此參數會影響函式的執行行為。
+    :param indent: 此參數會影響函式的執行行為。
+    :param profile: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     summary = ensure_summary_sentence(choose_type_summary(profile, type_info))
     return [
         f"{indent}/**",
@@ -55,6 +87,16 @@ def build_type_javadoc(type_info, indent, profile):
 
 
 def build_method_javadoc(method_info, indent, profile):
+    """
+    建立目標資料結構。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param method_info: 此參數會影響函式的執行行為。
+    :param indent: 此參數會影響函式的執行行為。
+    :param profile: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     summary = ensure_summary_sentence(choose_method_summary(profile, method_info))
     lines = [
         f"{indent}/**",
@@ -85,6 +127,17 @@ def build_method_javadoc(method_info, indent, profile):
 
 
 def process_file(file_path, root, include_private, profile):
+    """
+    執行 process_file 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :param file_path: 檔案路徑。
+    :param root: 此參數會影響函式的執行行為。
+    :param include_private: 此參數會影響函式的執行行為。
+    :param profile: 此參數會影響函式的執行行為。
+    :returns: 函式回傳結果。
+    """
     raw = Path(file_path).read_text(encoding="utf-8")
     eol = detect_eol(raw)
     lines = re.split(r"\r?\n", raw)
@@ -146,6 +199,13 @@ def process_file(file_path, root, include_private, profile):
 
 
 def main():
+    """
+    執行 main 的核心流程並回傳結果。
+    
+    說明此函式的主要流程、輸入限制與輸出語意。
+    
+    :returns: 函式回傳結果。
+    """
     args = parse_args(sys.argv[1:])
     root = resolve_root(args.root)
     profile = load_style_profile(args, Path(__file__).resolve().parent)
