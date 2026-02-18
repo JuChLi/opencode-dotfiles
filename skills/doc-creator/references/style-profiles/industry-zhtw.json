@@ -1,0 +1,270 @@
+{
+  "name": "industry-zhtw",
+  "language": "zh-TW",
+  "source": "https://diataxis.fr/",
+  "defaultDocType": "how-to",
+  "includeGlobs": [
+    "**/*.md"
+  ],
+  "excludeGlobs": [
+    "docs/archive/**"
+  ],
+  "docTypeHints": {
+    "tutorial": [
+      "tutorial",
+      "教學",
+      "入門",
+      "quickstart"
+    ],
+    "how-to": [
+      "how-to",
+      "howto",
+      "操作",
+      "指南",
+      "runbook",
+      "plan"
+    ],
+    "reference": [
+      "reference",
+      "api",
+      "spec",
+      "schema",
+      "規格",
+      "參考"
+    ],
+    "explanation": [
+      "explanation",
+      "說明",
+      "架構",
+      "設計",
+      "decision",
+      "adr"
+    ],
+    "handoff": [
+      "handoff",
+      "交接",
+      "移交",
+      "on-call"
+    ]
+  },
+  "structureRules": {
+    "tutorial": {
+      "requiredHeadingGroups": [
+        [
+          "目標",
+          "Goal",
+          "Objectives"
+        ],
+        [
+          "先備條件",
+          "Prerequisites"
+        ],
+        [
+          "步驟",
+          "操作步驟",
+          "Steps",
+          "Procedure"
+        ],
+        [
+          "驗證結果",
+          "驗證",
+          "Validation"
+        ],
+        [
+          "下一步",
+          "Next steps"
+        ]
+      ],
+      "minHeadingCount": 5
+    },
+    "how-to": {
+      "requiredHeadingGroups": [
+        [
+          "目標",
+          "Goal",
+          "Purpose"
+        ],
+        [
+          "適用情境",
+          "Use cases",
+          "When to use"
+        ],
+        [
+          "先備條件",
+          "Prerequisites"
+        ],
+        [
+          "操作步驟",
+          "步驟",
+          "Steps",
+          "Procedure"
+        ],
+        [
+          "驗證方式",
+          "驗證",
+          "Validation",
+          "Verify"
+        ],
+        [
+          "復原方式",
+          "回滾方式",
+          "Rollback",
+          "Recovery"
+        ]
+      ],
+      "minHeadingCount": 6
+    },
+    "reference": {
+      "requiredHeadingGroups": [
+        [
+          "範圍",
+          "Scope"
+        ],
+        [
+          "名詞與定義",
+          "Definitions",
+          "Terminology"
+        ],
+        [
+          "規格",
+          "Specification",
+          "API"
+        ],
+        [
+          "約束與限制",
+          "Constraints",
+          "Limitations"
+        ],
+        [
+          "版本與相容性",
+          "Compatibility",
+          "Versioning"
+        ]
+      ],
+      "minHeadingCount": 5
+    },
+    "explanation": {
+      "requiredHeadingGroups": [
+        [
+          "背景",
+          "Background"
+        ],
+        [
+          "問題定義",
+          "Problem"
+        ],
+        [
+          "設計決策",
+          "Decisions",
+          "Design decisions"
+        ],
+        [
+          "風險與取捨",
+          "Trade-offs",
+          "Risks"
+        ],
+        [
+          "延伸閱讀",
+          "Further reading",
+          "References"
+        ]
+      ],
+      "minHeadingCount": 5
+    },
+    "handoff": {
+      "requiredHeadingGroups": [
+        [
+          "TL;DR",
+          "摘要"
+        ],
+        [
+          "目前狀態",
+          "Current status"
+        ],
+        [
+          "已完成事項",
+          "Completed"
+        ],
+        [
+          "待辦事項",
+          "Open items",
+          "TODO"
+        ],
+        [
+          "風險與阻塞",
+          "Risks",
+          "Blockers"
+        ],
+        [
+          "驗證與結果",
+          "Verification",
+          "Results"
+        ],
+        [
+          "回滾與應變",
+          "Rollback",
+          "Fallback"
+        ]
+      ],
+      "minHeadingCount": 7
+    }
+  },
+  "terminologyRules": {
+    "preferredTerms": {
+      "回傳": [
+        "返回"
+      ],
+      "逾時": [
+        "超時"
+      ],
+      "先備條件": [
+        "前置條件"
+      ]
+    },
+    "bannedPatterns": [
+      {
+        "pattern": "\\bTODO\\b",
+        "reason": "避免未完成佔位文字。"
+      },
+      {
+        "pattern": "待補",
+        "reason": "避免未完成佔位文字。"
+      },
+      {
+        "pattern": "如上所述",
+        "reason": "避免不可追蹤的跨段參照。"
+      },
+      {
+        "pattern": "點擊這裡",
+        "reason": "請改用可描述連結目的的文字。"
+      },
+      {
+        "pattern": "執行某功能",
+        "reason": "避免低資訊量句型。"
+      }
+    ]
+  },
+  "proseRules": {
+    "maxLineLength": 120,
+    "maxParagraphLines": 8,
+    "discouragedPhrases": [
+      "很簡單",
+      "顯而易見",
+      "不再贅述",
+      "依需求調整",
+      "請自行研究"
+    ],
+    "genericHeadings": [
+      "其他",
+      "雜項",
+      "說明",
+      "備註",
+      "misc",
+      "note"
+    ]
+  },
+  "similarityRules": {
+    "similarityThreshold": 0.9,
+    "minLineLength": 12
+  }
+}

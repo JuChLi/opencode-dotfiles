@@ -1,0 +1,16 @@
+{
+  "name": "custom-template",
+  "extends": "google-zhtw",
+  "source": "https://your-team-style-guide.example",
+  "defaultDocType": "how-to",
+  "structureRules": {},
+  "terminologyRules": {
+    "preferredTerms": {},
+    "bannedPatterns": []
+  },
+  "proseRules": {
+    "discouragedPhrases": [],
+    "genericHeadings": []
+  },
+  "similarityRules": {}
+}

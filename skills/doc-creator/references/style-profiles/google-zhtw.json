@@ -1,0 +1,38 @@
+{
+  "name": "google-zhtw",
+  "extends": "industry-zhtw",
+  "language": "zh-TW",
+  "source": "https://developers.google.com/style",
+  "proseRules": {
+    "maxLineLength": 110,
+    "maxParagraphLines": 6,
+    "discouragedPhrases": [
+      "革命性",
+      "最強",
+      "無痛",
+      "非常簡單",
+      "輕鬆搞定",
+      "使用者可以"
+    ],
+    "genericHeadings": [
+      "其他",
+      "雜項",
+      "說明",
+      "備註",
+      "misc",
+      "note"
+    ]
+  },
+  "terminologyRules": {
+    "bannedPatterns": [
+      {
+        "pattern": "本文件將會",
+        "reason": "建議改成直接句型，減少冗詞。"
+      },
+      {
+        "pattern": "使用者可以",
+        "reason": "可優先使用第二人稱，例如「你可以」。"
+      }
+    ]
+  }
+}

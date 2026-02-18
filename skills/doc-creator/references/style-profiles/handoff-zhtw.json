@@ -1,0 +1,68 @@
+{
+  "name": "handoff-zhtw",
+  "extends": "google-zhtw",
+  "language": "zh-TW",
+  "source": "https://www.writethedocs.org/guide/writing/docs-principles/",
+  "defaultDocType": "handoff",
+  "structureRules": {
+    "handoff": {
+      "requiredHeadingGroups": [
+        [
+          "TL;DR",
+          "摘要"
+        ],
+        [
+          "目前狀態",
+          "Current status"
+        ],
+        [
+          "已完成事項",
+          "Completed"
+        ],
+        [
+          "待辦事項",
+          "Open items",
+          "TODO"
+        ],
+        [
+          "風險與阻塞",
+          "Risks",
+          "Blockers"
+        ],
+        [
+          "驗證與結果",
+          "Verification",
+          "Results"
+        ],
+        [
+          "回滾與應變",
+          "Rollback",
+          "Fallback"
+        ],
+        [
+          "聯絡窗口",
+          "Contacts"
+        ]
+      ],
+      "minHeadingCount": 8
+    }
+  },
+  "terminologyRules": {
+    "preferredTerms": {
+      "待辦事項": [
+        "待處理事項"
+      ],
+      "阻塞": [
+        "卡點"
+      ]
+    }
+  },
+  "proseRules": {
+    "maxParagraphLines": 5,
+    "discouragedPhrases": [
+      "大概",
+      "應該可以",
+      "再看看"
+    ]
+  }
+}
