@@ -1,0 +1,147 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "opencode",
+  "logLevel": "WARN",
+
+  // 預設主力模型：Copilot Pro+ 的 Claude Sonnet
+  "model": "github-copilot/claude-sonnet",
+
+  // 輕量任務（標題生成等）使用最小 codex
+  "small_model": "openai/gpt-5.2-codex",
+
+  "share": "disabled",
+  "autoupdate": "notify",
+
+  // --- Provider 設定（已 /connect 授權，不需要 apiKey）---
+  "provider": {
+    "github-copilot": {
+      "options": {
+        "timeout": 600000,
+        "max_tokens": 4096
+      }
+    },
+    "zhipu": {
+      "options": {
+        "timeout": 300000,
+        "max_tokens": 2048
+      }
+    },
+    "openai": {
+      "options": {
+        "timeout": 600000,
+        "setCacheKey": true,
+        "max_tokens": 4096
+      }
+    }
+  },
+
+  // --- 啟用的 Provider ---
+  "enabled_providers": [
+    "openai",
+    "github-copilot",
+    "zhipu"
+  ],
+
+  // --- 自訂指令 ---
+  "command": {
+
+    // 配額查詢
+    "mystatus": {
+      "description": "查詢所有 AI 帳號配額狀況",
+       "template": "呼叫 mystatus 工具查詢所有帳號配額（包含 GitHub Copilot、OpenAI、Z.ai），略過 Google Cloud / Antigravity。將結果以台灣繁體中文顯示，用字用詞符合台灣習慣（例如：「剩餘」而非「剩余」、「重置」而非「重設」、「方案」而非「套餐」），保留進度條字元（█░）不翻譯。\n\n顯示完畢後附上：\n---\n補充資訊：\n- GitHub Copilot Premium 點數耗盡後將自動降級為基本模型\n- OpenAI 為 ChatGPT 訂閱時數配額，非 API 用量；詳見 https://platform.openai.com/usage\n- Z.ai 為 Coding Plan 總額度；詳見 https://bigmodel.cn/usercenter/creditcenter\n\n根據以上配額建議優先使用哪個 provider。"
+    }
+  },
+
+  // --- 權限控管 ---
+  // 重要：最後匹配規則優先，deny 規則必須放在最後
+  "permission": {
+    "read": "allow",
+    "edit": "ask",
+    "bash": {
+      // 安全操作：明確允許
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "git add*": "allow",
+      "git commit*": "allow",
+      "npm test*": "allow",
+      "dotnet test*": "allow",
+      "mvn test*": "allow",
+      "mvn compile*": "allow",
+      "gradlew.bat test*": "allow",
+      "gradlew.bat build*": "allow",
+      ".\\gradlew test*": "allow",
+      ".\\gradlew build*": "allow",
+      "python *": "allow",
+      // 需確認操作
+      "pip install*": "ask",
+      "powershell -File*": "ask",
+      "powershell -Command*": "ask",
+      // 預設：其他全部詢問
+      "*": "ask",
+      // 危險操作：拒絕（放最後，最後匹配優先 = 最高優先）
+      "git push --force*": "deny",
+      "git reset --hard*": "deny",
+      "Remove-Item*": "deny",
+      "rm -rf*": "deny",
+      "rm *": "deny",
+      "del *": "deny",
+      "rd /s*": "deny",
+      "rmdir /s*": "deny",
+      "Format-*": "deny",
+      "pip uninstall*": "deny"
+    }
+  },
+
+  // --- 壓縮設定 ---
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 10000
+  },
+
+  // --- 檔案監視過濾（Windows 環境）---
+  "watcher": {
+    "ignore": [
+      ".git/**",
+      "node_modules/**",
+      "dist/**", "build/**", "out/**", "vendor/**",
+
+      "target/**", "**/target/**",
+      ".gradle/**", ".gradle-home/**", ".mvn/**",
+      "**/*.class", "**/*.jar", "**/*.hprof", "**/*.war",
+
+      "**/__pycache__/**", "**/*.pyc", "**/*.pyo",
+      "venv/**", ".venv/**",
+      ".pytest_cache/**", "**/.pytest_cache/**",
+      ".mypy_cache/**",
+
+      ".vs/**",
+      "**/[Bb]in/**", "**/[Oo]bj/**",
+      "**/*.pdb", "**/*.suo", "**/*.user", "**/*.userosscache",
+      "**/*.sln.docstates",
+      "App_Data/**", "_ReSharper*/",
+      "packages/**",
+
+      ".idea/**", "**/*.iml",
+      ".settings/**", ".classpath", ".project",
+      ".vscode/**", ".history/**",
+
+      ".env", ".env.*", "**/*.env",
+      "**/*.sqlite", "**/*.db",
+      "**/*.zip", "**/*.tar.gz", "**/*.gz",
+      "**/*.exe", "**/*.dll",
+
+      "logs/**", "**/logs/**", "**/*.log",
+
+      "Thumbs.db", "Thumbs.db:encryptable",
+      "desktop.ini", "ehthumbs.db",
+      "$RECYCLE.BIN/**", "*.stackdump"
+    ]
+  },
+
+  // --- 插件 ---
+  "plugin": [
+    "opencode-mystatus"
+  ]
+}
