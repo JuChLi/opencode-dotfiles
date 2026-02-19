@@ -18,3 +18,4 @@
 - `commands/` → `~/.config/opencode/commands/`
 - `skills/ddd-arch/` → `~/.agents/skills/clean-ddd-hexagonal/`
 - `skills/ddd-refactor/` → `~/.agents/skills/moai-workflow-ddd/`
+- `skills/skill-creator/` → `~/.agents/skills/skill-creator/`
