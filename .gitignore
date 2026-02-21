@@ -1,6 +1,9 @@
 # OpenCode progress (personal working state)
 .opencode/
 
+# Node modules
+node_modules/
+
 # Credentials and secrets
 credentials.json
 .env
