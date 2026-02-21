@@ -1,0 +1,59 @@
+{
+  "name": "opencode-myquota",
+  "version": "1.0.0",
+  "description": "Query all AI account quota (GitHub Copilot, OpenAI, Z.ai, MiniMax) in one command for OpenCode.",
+  "type": "module",
+  "main": "dist/plugin/myquota.js",
+  "types": "dist/plugin/myquota.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/plugin/myquota.js",
+      "types": "./dist/plugin/myquota.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "command",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "prepublishOnly": "npm run lint && npm run build"
+  },
+  "keywords": [
+    "opencode",
+    "plugin",
+    "quota",
+    "status",
+    "copilot",
+    "openai",
+    "zhipu",
+    "minimax"
+  ],
+  "author": "private",
+  "license": "MIT",
+  "dependencies": {
+    "@opencode-ai/plugin": "1.1.27"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.52.0",
+    "@typescript-eslint/parser": "^8.52.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.0.0",
+    "prettier": "^3.7.4",
+    "typescript": "^5.8.0"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

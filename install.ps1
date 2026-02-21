@@ -18,6 +18,11 @@ $SkillMappings = @{
     "ddd-refactor" = "moai-workflow-ddd"
 }
 
+# Plugin name mappings (repo folder -> installed name)
+$PluginMappings = @{
+    "opencode-myquota" = "myquota"
+}
+
 Write-Host "OpenCode Dotfiles Installer" -ForegroundColor Cyan
 Write-Host "==========================" -ForegroundColor Cyan
 Write-Host ""
@@ -98,6 +103,54 @@ foreach ($mapping in $SkillMappings.GetEnumerator()) {
     Write-Host "  Created symlink: $targetName -> $sourcePath" -ForegroundColor Green
 }
 
+# === Plugins ===
+Write-Host ""
+Write-Host "[Plugins]" -ForegroundColor Green
+
+$PluginsSource = "$ScriptDir\opencode-myquota\plugin"
+$PluginTargetBase = "$env:USERPROFILE\.config\opencode\plugin"
+
+foreach ($mapping in $PluginMappings.GetEnumerator()) {
+    $sourceFolder = $mapping.Key
+    $targetName = $mapping.Value
+    $sourcePath = "$ScriptDir\$sourceFolder\plugin"
+    $targetPath = "$PluginTargetBase\$targetName"
+    $commandSourcePath = "$ScriptDir\$sourceFolder\command\$targetName.md"
+    $commandTargetPath = "$env:USERPROFILE\.config\opencode\command\$targetName.md"
+
+    if (-not (Test-Path $sourcePath)) {
+        Write-Host "  Skipped (not found): $sourceFolder" -ForegroundColor Yellow
+        continue
+    }
+
+    # Ensure plugin directory exists
+    if (-not (Test-Path $PluginTargetBase)) {
+        New-Item -ItemType Directory -Force -Path $PluginTargetBase | Out-Null
+    }
+
+    # Ensure command directory exists
+    $commandParent = Split-Path -Parent $commandTargetPath
+    if (-not (Test-Path $commandParent)) {
+        New-Item -ItemType Directory -Force -Path $commandParent | Out-Null
+    }
+
+    # Remove existing
+    if (Test-Path $targetPath) {
+        Remove-Item -Recurse -Force $targetPath
+    }
+    if (Test-Path $commandTargetPath) {
+        Remove-Item -Force $commandTargetPath
+    }
+
+    # Create plugin symlink
+    New-Item -ItemType SymbolicLink -Path $targetPath -Target $sourcePath | Out-Null
+    Write-Host "  Created plugin symlink: $targetName -> $sourcePath" -ForegroundColor Green
+
+    # Create command symlink
+    New-Item -ItemType SymbolicLink -Path $commandTargetPath -Target $commandSourcePath | Out-Null
+    Write-Host "  Created command symlink: $commandTargetPath -> $commandSourcePath" -ForegroundColor Green
+}
+
 # === Done ===
 Write-Host ""
 Write-Host "Installation complete!" -ForegroundColor Cyan
@@ -106,6 +159,11 @@ Write-Host "Symlinks created:" -ForegroundColor White
 Write-Host "  $CommandsTarget -> $CommandsSource"
 foreach ($mapping in $SkillMappings.GetEnumerator()) {
     Write-Host "  $SkillsTarget\$($mapping.Value) -> $SkillsSource\$($mapping.Key)"
+}
+foreach ($mapping in $PluginMappings.GetEnumerator()) {
+    $targetName = $mapping.Value
+    Write-Host "  $PluginTargetBase\$targetName -> $ScriptDir\$($mapping.Key)\plugin"
+    Write-Host "  $env:USERPROFILE\.config\opencode\command\$targetName -> $ScriptDir\$($mapping.Key)\command\$targetName.md"
 }
 Write-Host ""
 Write-Host "Restart OpenCode to load the new commands and skills."

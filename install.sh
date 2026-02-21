@@ -19,6 +19,11 @@ declare -A SKILL_MAPPINGS=(
     ["ddd-refactor"]="moai-workflow-ddd"
 )
 
+# Plugin name mappings (repo folder -> installed name)
+declare -A PLUGIN_MAPPINGS=(
+    ["opencode-myquota"]="myquota"
+)
+
 echo "OpenCode Dotfiles Installer"
 echo "=========================="
 echo ""
@@ -80,6 +85,48 @@ for source_folder in "${!SKILL_MAPPINGS[@]}"; do
     echo "  Created symlink: $target_name -> $source_path"
 done
 
+# === Plugins ===
+echo ""
+echo "[Plugins]"
+
+PLUGINS_SOURCE="$SCRIPT_DIR/opencode-myquota/plugin"
+PLUGIN_TARGET_BASE="$HOME/.config/opencode/plugin"
+
+for source_folder in "${!PLUGIN_MAPPINGS[@]}"; do
+    target_name="${PLUGIN_MAPPINGS[$source_folder]}"
+    source_path="$SCRIPT_DIR/$source_folder/plugin"
+    target_path="$PLUGIN_TARGET_BASE/$target_name"
+    command_source_path="$SCRIPT_DIR/$source_folder/command/$target_name.md"
+    command_target_path="$HOME/.config/opencode/command/$target_name.md"
+
+    if [ ! -d "$source_path" ]; then
+        echo "  Skipped (not found): $source_folder"
+        continue
+    fi
+
+    # Ensure plugin directory exists
+    mkdir -p "$PLUGIN_TARGET_BASE"
+
+    # Ensure command directory exists
+    mkdir -p "$(dirname "$command_target_path")"
+
+    # Remove existing
+    if [ -e "$target_path" ] || [ -L "$target_path" ]; then
+        rm -rf "$target_path"
+    fi
+    if [ -e "$command_target_path" ] || [ -L "$command_target_path" ]; then
+        rm -f "$command_target_path"
+    fi
+
+    # Create plugin symlink
+    ln -s "$source_path" "$target_path"
+    echo "  Created plugin symlink: $target_name -> $source_path"
+
+    # Create command symlink
+    ln -s "$command_source_path" "$command_target_path"
+    echo "  Created command symlink: $command_target_path -> $command_source_path"
+done
+
 # === Done ===
 echo ""
 echo "Installation complete!"
@@ -89,6 +136,11 @@ echo "  $COMMANDS_TARGET -> $COMMANDS_SOURCE"
 for source_folder in "${!SKILL_MAPPINGS[@]}"; do
     target_name="${SKILL_MAPPINGS[$source_folder]}"
     echo "  $SKILLS_TARGET/$target_name -> $SKILLS_SOURCE/$source_folder"
+done
+for source_folder in "${!PLUGIN_MAPPINGS[@]}"; do
+    target_name="${PLUGIN_MAPPINGS[$source_folder]}"
+    echo "  $PLUGIN_TARGET_BASE/$target_name -> $SCRIPT_DIR/$source_folder/plugin"
+    echo "  $HOME/.config/opencode/command/$target_name -> $SCRIPT_DIR/$source_folder/command/$target_name.md"
 done
 echo ""
 echo "Restart OpenCode to load the new commands and skills."

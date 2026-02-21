@@ -41,7 +41,8 @@
     "openai",
     "github-copilot",
     "zai-coding-plan",
-    "opencode"
+    "opencode",
+    "minimax"
   ],
 
   // --- 自訂指令 ---

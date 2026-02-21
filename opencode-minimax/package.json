@@ -1,0 +1,57 @@
+{
+  "name": "opencode-minimax",
+  "version": "0.1.0",
+  "description": "Query MiniMax Coding Plan quota (remains) in one command/tool for OpenCode.",
+  "type": "module",
+  "main": "dist/plugin/myminimax.js",
+  "types": "dist/plugin/myminimax.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/plugin/myminimax.js",
+      "types": "./dist/plugin/myminimax.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "command",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "prepublishOnly": "npm run lint && npm run build"
+  },
+  "keywords": [
+    "opencode",
+    "plugin",
+    "quota",
+    "status",
+    "minimax",
+    "coding-plan"
+  ],
+  "author": "private",
+  "license": "MIT",
+  "dependencies": {
+    "@opencode-ai/plugin": "1.1.27"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.52.0",
+    "@typescript-eslint/parser": "^8.52.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.0.0",
+    "prettier": "^3.7.4",
+    "typescript": "^5.8.0"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
