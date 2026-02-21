@@ -33,6 +33,14 @@ export async function queryMiniMaxUsageFromAuth(auth) {
     }
     if (!resp.ok) {
         const text = await resp.text().catch(() => "");
+        if (text.includes("Cloudflare") || text.includes("Attention Required")) {
+            return {
+                success: true,
+                output: `${t.account} ${sourceKey ?? t.unknown}\n` +
+                    `${t.plan} ${t.unknown}\n\n` +
+                    "⚠️ MiniMax 額度 API 目前無法存取（被 Cloudflare 阻擋）。\n請至 https://platform.minimaxi.com/user-center/payment/coding-plan 查看額度。",
+            };
+        }
         return { success: false, error: t.minimaxApiError(resp.status, text) };
     }
     let data;
